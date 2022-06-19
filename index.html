@@ -98,17 +98,15 @@
         })
         .then(jsondata => {
             let table = document.getElementById('customer_table');
-
-            for (let i = 0; i < jsondata.length; i++) {
+            jsondata.map((data) => {
                 let row = `<tr>
-                <td>${jsondata[i].id}</td>
-                <td>${jsondata[i].first_name}</td>
-                <td>${jsondata[i].last_name}</td>
-                <td>${jsondata[i].email}</td>
-                <td>${jsondata[i].gender}</td>
+                <td>${data.id}</td>
+                <td>${data.first_name}</td>
+                <td>${data.last_name}</td>
+                <td>${data.email}</td>
+                <td>${data.gender}</td>
                 </tr>`
                 table.innerHTML += row;
-            }
-        }
-        );
+            });
+        });
 </script>
