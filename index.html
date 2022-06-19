@@ -91,22 +91,19 @@
     });
 </script> -->
 
-<script>
-    fetch("./customers.json")
-        .then(response => {
-            return response.json();
-        })
-        .then(jsondata => {
-            let table = document.getElementById('customer_table');
-            jsondata.map((data) => {
-                let row = `<tr>
-                <td>${data.id}</td>
-                <td>${data.first_name}</td>
-                <td>${data.last_name}</td>
-                <td>${data.email}</td>
-                <td>${data.gender}</td>
-                </tr>`
-                table.innerHTML += row;
-            });
-        });
+<script type="module">
+    import data from './customers.json' assert {type: 'json'};
+    let table = document.getElementById('customer_table');
+    data.map((data) => {
+        if (data.id < 6) {
+            let row = `<tr>
+            <td>${data.id}</td>
+            <td>${data.first_name}</td>
+            <td>${data.last_name}</td>
+            <td>${data.email}</td>
+            <td>${data.gender}</td>
+            </tr>`
+            table.innerHTML += row;
+        }
+    });
 </script>
