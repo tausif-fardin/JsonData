@@ -70,7 +70,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
     crossorigin="anonymous"></script>
-<script>
+<!-- <script>
     $(document).ready(function () {
         $.getJSON("customers.json", function (data) {
 
@@ -89,4 +89,26 @@
             $('#customer_table').append(customer_data);
         });
     });
+</script> -->
+
+<script>
+    fetch("./customers.json")
+        .then(response => {
+            return response.json();
+        })
+        .then(jsondata => {
+            let table = document.getElementById('customer_table');
+
+            for (let i = 0; i < jsondata.length; i++) {
+                let row = `<tr>
+                <td>${jsondata[i].id}</td>
+                <td>${jsondata[i].first_name}</td>
+                <td>${jsondata[i].last_name}</td>
+                <td>${jsondata[i].email}</td>
+                <td>${jsondata[i].gender}</td>
+                </tr>`
+                table.innerHTML += row;
+            }
+        }
+        );
 </script>
