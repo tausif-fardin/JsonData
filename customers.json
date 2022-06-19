@@ -1,0 +1,142 @@
+[
+    {
+        "id": 1,
+        "first_name": "Juanita",
+        "last_name": "Churchlow",
+        "email": "jchurchlow0@mysql.com",
+        "gender": "Female"
+    },
+    {
+        "id": 2,
+        "first_name": "Odie",
+        "last_name": "Gheorghie",
+        "email": "ogheorghie1@bing.com",
+        "gender": "Male"
+    },
+    {
+        "id": 3,
+        "first_name": "Irwin",
+        "last_name": "Guye",
+        "email": "iguye2@mac.com",
+        "gender": "Male"
+    },
+    {
+        "id": 4,
+        "first_name": "Dacy",
+        "last_name": "Facher",
+        "email": "dfacher3@ucsd.edu",
+        "gender": "Female"
+    },
+    {
+        "id": 5,
+        "first_name": "Brenn",
+        "last_name": "Hancill",
+        "email": "bhancill4@slideshare.net",
+        "gender": "Female"
+    },
+    {
+        "id": 6,
+        "first_name": "Reuben",
+        "last_name": "McClinton",
+        "email": "rmcclinton5@t-online.de",
+        "gender": "Male"
+    },
+    {
+        "id": 7,
+        "first_name": "Katherina",
+        "last_name": "Iglesias",
+        "email": "kiglesias6@webnode.com",
+        "gender": "Bigender"
+    },
+    {
+        "id": 8,
+        "first_name": "Daron",
+        "last_name": "Middler",
+        "email": "dmiddler7@usda.gov",
+        "gender": "Male"
+    },
+    {
+        "id": 9,
+        "first_name": "Spencer",
+        "last_name": "Cars",
+        "email": "scars8@hhs.gov",
+        "gender": "Male"
+    },
+    {
+        "id": 10,
+        "first_name": "Hort",
+        "last_name": "Santacrole",
+        "email": "hsantacrole9@usgs.gov",
+        "gender": "Male"
+    },
+    {
+        "id": 11,
+        "first_name": "Perry",
+        "last_name": "Shipston",
+        "email": "pshipstona@intel.com",
+        "gender": "Genderqueer"
+    },
+    {
+        "id": 12,
+        "first_name": "Cornelia",
+        "last_name": "Faulkes",
+        "email": "cfaulkesb@goo.gl",
+        "gender": "Female"
+    },
+    {
+        "id": 13,
+        "first_name": "Milena",
+        "last_name": "Matthisson",
+        "email": "mmatthissonc@usnews.com",
+        "gender": "Female"
+    },
+    {
+        "id": 14,
+        "first_name": "Augusto",
+        "last_name": "Medhurst",
+        "email": "amedhurstd@webmd.com",
+        "gender": "Male"
+    },
+    {
+        "id": 15,
+        "first_name": "Annabela",
+        "last_name": "Seman",
+        "email": "asemane@mapquest.com",
+        "gender": "Female"
+    },
+    {
+        "id": 16,
+        "first_name": "Mathilde",
+        "last_name": "Hulse",
+        "email": "mhulsef@nsw.gov.au",
+        "gender": "Female"
+    },
+    {
+        "id": 17,
+        "first_name": "Jenda",
+        "last_name": "McMorland",
+        "email": "jmcmorlandg@sohu.com",
+        "gender": "Female"
+    },
+    {
+        "id": 18,
+        "first_name": "Aurel",
+        "last_name": "Ditzel",
+        "email": "aditzelh@thetimes.co.uk",
+        "gender": "Female"
+    },
+    {
+        "id": 19,
+        "first_name": "Aarika",
+        "last_name": "Fairest",
+        "email": "afairesti@usa.gov",
+        "gender": "Female"
+    },
+    {
+        "id": 20,
+        "first_name": "Tanitansy",
+        "last_name": "Rasher",
+        "email": "trasherj@tamu.edu",
+        "gender": "Female"
+    }
+]
