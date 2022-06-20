@@ -92,18 +92,53 @@
 </script> -->
 
 <script type="module">
-    import data from './customers.json' assert {type: 'json'};
+    //import data from './customers.json' assert {type: 'json'};
+    let data = [
+        {
+            id: 1,
+            first_name: "Juanita",
+            last_name: "Churchlow",
+            email: "jchurchlow0@mysql.com",
+            gender: "Female"
+        },
+        {
+            id: 2,
+            first_name: "Odie",
+            last_name: "Gheorghie",
+            email: "ogheorghie1@bing.com",
+            gender: "Male"
+        },
+        {
+            id: 3,
+            first_name: "Irwin",
+            last_name: "Guye",
+            email: "iguye2@mac.com",
+            gender: "Male"
+        },
+        {
+            id: 4,
+            first_name: "Dacy",
+            last_name: "Facher",
+            email: "dfacher3@ucsd.edu",
+            gender: "Female"
+        },
+        {
+            id: 5,
+            first_name: "Brenn",
+            last_name: "Hancill",
+            email: "bhancill4@slideshare.net",
+            gender: "Female"
+        }
+    ]
     let table = document.getElementById('customer_table');
     data.map((data) => {
-        if (data.id < 6) {
-            let row = `<tr>
+        let row = `<tr>
             <td>${data.id}</td>
             <td>${data.first_name}</td>
             <td>${data.last_name}</td>
             <td>${data.email}</td>
             <td>${data.gender}</td>
             </tr>`
-            table.innerHTML += row;
-        }
+        table.innerHTML += row;
     });
 </script>
