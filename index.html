@@ -26,10 +26,10 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav me-auto mb-2 mb-md-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            <a class="nav-link active" aria-current="page" href="#adduser">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
+                            <a class="nav-link" href="#customer_table">User List</a>
                         </li>
 
                     </ul>
@@ -37,18 +37,72 @@
             </div>
         </nav>
     </header>
+    <br>
+    <br><br>
+    <div>
 
-    <div class="container" style="margin-top: 50px; overflow-x: scroll;">
+        <form id="adduser" class="container p-5 d-grid g-2 border " onsubmit="event.preventDefault();onFormSubmit();"
+            autocomplete="off">
+            <h2 class="p-3 border rounded bg-primary text-light">Add User</h2>
+            <div class="mb-3 row">
+                <label for="" class="col-sm-2 col-form-label">ID</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="id" name="id">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="" class="col-sm-2 col-form-label">First Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="firstname" id="firstname">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="" class="col-sm-2 col-form-label">lastname</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="lastname" id="lastname">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" name="email" id="email">
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="" class="col-sm-2 col-form-label">Gender</label>
+                <div class="col-sm-10">
+                    <!-- <input type="text" class="form-control" name="gender" id="gender"> -->
+                    <select class="select p-2 text-bg-cyan-100" name="gender" id="gender">
+                        <option value="Female" id="female">Female</option>
+                        <option value="Male" id="male">Male</option>
+                        <option value="Other" id="other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3 row form-action-buttons">
+                <div class="col-sm-10">
+                    <input class="ps-5 pe-5 p-2 border border-dark rounded bg-primary fs-5 text-light" type="submit"
+                        value="Add">
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="container-fluid " style="margin-top: 50px; overflow-x: scroll;">
         <div class="row">
-            <div class="col">
-                <table class="table table-bordered">
+            <div class="col ">
+                <table class="table table-bordered" id="customer_table">
                     <thead>
                         <tr style="text-align:center">
-                            <th class="col-1" scope="col">Id</th>
-                            <th class="col-3" scope="col">First Name</th>
-                            <th class="col-3" scope="col">Last Name</th>
-                            <th class="col-3" scope="col">Email</th>
-                            <th class="col-1" scope="col">Gender</th>
+                            <th class="col-2 col-xs-4 col-md-2 " scope="col">Id</th>
+                            <th class="col-2 col-xs-4 col-md-2" scope="col">First Name</th>
+                            <th class="col-2 col-xs-4 col-md-2" scope="col">Last Name</th>
+                            <th class="col-2 col-xs-4 col-md-2" scope="col">Email</th>
+                            <th class="col-2 col-xs-4 col-md-2" scope="col">Gender</th>
+                            <th class="col-2 col-xs-4 col-md-2" scope="col">Action</th>
+
                         </tr>
                     </thead>
                     <tbody id="customer_table">
@@ -90,55 +144,4 @@
         });
     });
 </script> -->
-
-<script type="module">
-    //import data from './customers.json' assert {type: 'json'};
-    let data = [
-        {
-            id: 1,
-            first_name: "Juanita",
-            last_name: "Churchlow",
-            email: "jchurchlow0@mysql.com",
-            gender: "Female"
-        },
-        {
-            id: 2,
-            first_name: "Odie",
-            last_name: "Gheorghie",
-            email: "ogheorghie1@bing.com",
-            gender: "Male"
-        },
-        {
-            id: 3,
-            first_name: "Irwin",
-            last_name: "Guye",
-            email: "iguye2@mac.com",
-            gender: "Male"
-        },
-        {
-            id: 4,
-            first_name: "Dacy",
-            last_name: "Facher",
-            email: "dfacher3@ucsd.edu",
-            gender: "Female"
-        },
-        {
-            id: 5,
-            first_name: "Brenn",
-            last_name: "Hancill",
-            email: "bhancill4@slideshare.net",
-            gender: "Female"
-        }
-    ]
-    let table = document.getElementById('customer_table');
-    data.map((data) => {
-        let row = `<tr>
-            <td>${data.id}</td>
-            <td>${data.first_name}</td>
-            <td>${data.last_name}</td>
-            <td>${data.email}</td>
-            <td>${data.gender}</td>
-            </tr>`
-        table.innerHTML += row;
-    });
-</script>
+<script src="script.js"></script>
