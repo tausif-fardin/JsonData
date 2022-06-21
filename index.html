@@ -13,7 +13,7 @@
     <title>JSon Data</title>
 </head>
 
-<body class="d-flex flex-column h-100">
+<body class="container d-flex flex-column h-100">
 
     <header>
         <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
@@ -40,59 +40,78 @@
     <br>
     <br><br>
     <div>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
 
-        <form id="adduser" class="container p-5 d-grid g-2 border " onsubmit="event.preventDefault();onFormSubmit();"
-            autocomplete="off">
-            <h2 class="p-3 border rounded bg-primary text-light">Add User</h2>
-            <div class="mb-3 row">
-                <label for="" class="col-sm-2 col-form-label">ID</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="id" name="id">
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="" class="col-sm-2 col-form-label">First Name</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" name="firstname" id="firstname">
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="" class="col-sm-2 col-form-label">lastname</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" name="lastname" id="lastname">
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="" class="col-sm-2 col-form-label">Email</label>
-                <div class="col-sm-10">
-                    <input type="email" class="form-control" name="email" id="email">
-                </div>
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <form id="adduser" class="container p-5 d-grid g-2 border "
+                    onsubmit="event.preventDefault();onFormSubmit();" autocomplete="off">
+                    <h2 class="p-3 border rounded bg-primary text-light">Add User</h2>
+                    <div class="mb-3 row">
+                        <label for="" class="col-sm-2 col-form-label">ID</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="id" name="id">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="" class="col-sm-2 col-form-label">First Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="firstname" id="firstname">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="" class="col-sm-2 col-form-label">lastname</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="lastname" id="lastname">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" name="email" id="email">
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="" class="col-sm-2 col-form-label">Gender</label>
+                        <div class="col-sm-10">
+                            <!-- <input type="text" class="form-control" name="gender" id="gender"> -->
+                            <select class="select p-2 text-bg-cyan-100" name="gender" id="gender">
+                                <option value="Female" id="female">Female</option>
+                                <option value="Male" id="male">Male</option>
+                                <option value="Other" id="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row form-action-buttons">
+                        <div class="col-sm-10">
+                            <input class="ps-5 pe-5 p-2 border border-dark rounded bg-primary fs-5 text-light"
+                                type="submit" value="Add">
+                        </div>
+                    </div>
+
+                </form>
             </div>
 
-            <div class="mb-3 row">
-                <label for="" class="col-sm-2 col-form-label">Gender</label>
-                <div class="col-sm-10">
-                    <!-- <input type="text" class="form-control" name="gender" id="gender"> -->
-                    <select class="select p-2 text-bg-cyan-100" name="gender" id="gender">
-                        <option value="Female" id="female">Female</option>
-                        <option value="Male" id="male">Male</option>
-                        <option value="Other" id="other">Other</option>
-                    </select>
-                </div>
-            </div>
+        </div>
 
-            <div class="mb-3 row form-action-buttons">
-                <div class="col-sm-10">
-                    <input class="ps-5 pe-5 p-2 border border-dark rounded bg-primary fs-5 text-light" type="submit"
-                        value="Add">
-                </div>
-            </div>
 
-        </form>
+    </div>
+    <div class="">
+        <!-- Trigger/Open The Modal -->
     </div>
     <div class="container-fluid " style="margin-top: 50px; overflow-x: scroll;">
         <div class="row">
+
             <div class="col ">
+                <div class="d-flex justify-content-between">
+                    <h2 class="p-2 bd-highlight">All Users</h2>
+                    <button class="p-2 m-2 p-3 bd-highlight btn btn-info" id="btnAdd">Add</button>
+                </div>
+
                 <table class="table table-bordered" id="customer_table">
                     <thead>
                         <tr style="text-align:center">
