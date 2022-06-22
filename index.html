@@ -5,18 +5,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-
-    <title>JSon Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <title>Table</title>
 </head>
 
-<body class="container d-flex flex-column h-100">
+<body class="container-fluid">
 
     <header>
-        <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark ">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Customer List</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
@@ -39,128 +39,156 @@
     </header>
     <br>
     <br><br>
-    <div>
-        <!-- The Modal -->
-        <div id="myModal" class="modal">
+    <!-- Button trigger modal -->
+    <div class="d-flex justify-content-between container-sm">
+        <h2 class=" m-2 p-2 bd-highlight">Users List</h2>
+        <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#exampleModal"
+            id="#add" onclick="showRegModal()">
+            Add
+        </button>
+    </div>
 
-            <!-- Modal content -->
+    <!-- Registration Modal -->
+    <div class="modal fade" id="regModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
-                <span class="close">&times;</span>
-                <form id="adduser" class="container p-5 d-grid g-2 border "
-                    onsubmit="event.preventDefault();onFormSubmit();" autocomplete="off">
-                    <h2 class="p-3 border rounded bg-primary text-light">Add User</h2>
-                    <div class="mb-3 row">
-                        <label for="" class="col-sm-2 col-form-label">ID</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="id" name="id">
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label for="" class="col-sm-2 col-form-label">First Name</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="firstname" id="firstname">
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label for="" class="col-sm-2 col-form-label">lastname</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="lastname" id="lastname">
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label for="" class="col-sm-2 col-form-label">Email</label>
-                        <div class="col-sm-10">
-                            <input type="email" class="form-control" name="email" id="email">
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label for="" class="col-sm-2 col-form-label">Gender</label>
-                        <div class="col-sm-10">
-                            <!-- <input type="text" class="form-control" name="gender" id="gender"> -->
-                            <select class="select p-2 text-bg-cyan-100" name="gender" id="gender">
-                                <option value="Female" id="female">Female</option>
-                                <option value="Male" id="male">Male</option>
-                                <option value="Other" id="other">Other</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row form-action-buttons">
-                        <div class="col-sm-10">
-                            <input class="ps-5 pe-5 p-2 border border-dark rounded bg-primary fs-5 text-light"
-                                type="submit" value="Add">
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-
-        </div>
-
-
-    </div>
-    <div class="">
-        <!-- Trigger/Open The Modal -->
-    </div>
-    <div class="container-fluid " style="margin-top: 50px; overflow-x: scroll;">
-        <div class="row">
-
-            <div class="col ">
-                <div class="d-flex justify-content-between">
-                    <h2 class="p-2 bd-highlight">All Users</h2>
-                    <button class="p-2 m-2 p-3 bd-highlight btn btn-info" id="btnAdd">Add</button>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Registration</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <div class="modal-body">
+                    <form id="adduser" onsubmit="event.preventDefault();onFormSubmit();resetForm();" autocomplete="off">
+                        <div class="mb-3 row">
+                            <label for="" hidden class="col-sm-2 col-form-label">ID</label>
+                            <div class="col-sm-10">
+                                <input type="hidden" class="form-control" id="id" name="id" readonly>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="" class="col-sm-2 col-form-label">First Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="firstname" id="firstname">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="" class="col-sm-2 col-form-label">lastname</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="lastname" id="lastname">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" name="email" id="email">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="" class="col-sm-2 col-form-label">Gender</label>
+                            <div class="col-sm-10">
+                                <!-- <input type="text" class="form-control" name="gender" id="gender"> -->
+                                <select class="select p-2 text-bg-cyan-100" name="gender" id="gender">
+                                    <option value="Male" id="female">Male</option>
+                                    <option value="Female" id="male">Female</option>
+                                    <option value="Other" id="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
 
-                <table class="table table-bordered" id="customer_table">
-                    <thead>
-                        <tr style="text-align:center">
-                            <th class="col-2 col-xs-4 col-md-2 " scope="col">Id</th>
-                            <th class="col-2 col-xs-4 col-md-2" scope="col">First Name</th>
-                            <th class="col-2 col-xs-4 col-md-2" scope="col">Last Name</th>
-                            <th class="col-2 col-xs-4 col-md-2" scope="col">Email</th>
-                            <th class="col-2 col-xs-4 col-md-2" scope="col">Gender</th>
-                            <th class="col-2 col-xs-4 col-md-2" scope="col">Action</th>
-
-                        </tr>
-                    </thead>
-                    <tbody id="customer_table">
-                    </tbody>
-                </table>
+                        <div class="mb-3 row form-action-buttons">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Register</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 
-</body>
-<div class="footer mt-auto py-3 bg-light">
-    <div class="container">
-        <span class="text-muted">@tausif</span>
+    <!---------------------------------------Table Show------------------------------------------------------->
+
+    <div class="container-sm p-3" style="overflow-x: scroll;">
+        <div class="row">
+            <table class="table table-bordered" id="user_table">
+                <thead>
+                    <tr style="text-align:center">
+                        <th class="col-2 col-xs-4 col-md-2 " scope="col">Id</th>
+                        <th class="col-2 col-xs-4 col-md-2" scope="col">First Name</th>
+                        <th class="col-2 col-xs-4 col-md-2" scope="col">Last Name</th>
+                        <th class="col-2 col-xs-4 col-md-2" scope="col">Email</th>
+                        <th class="col-2 col-xs-4 col-md-2" scope="col">Gender</th>
+                        <th class="col-2 col-xs-4 col-md-2" scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="user_table">
+                    <!---Here is the table body contents-->
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+    </div>
+
+    <!---------------------------------------Edit ------------------------------------------------------->
+
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Registration</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="editForm">
+                    <form id="updateuser" autocomplete="off">
+                        <div class="mb-3 row">
+                            <label for="" hidden class="col-sm-2 col-form-label">ID</label>
+                            <div class="col-sm-10">
+                                <input type="hidden" class="form-control" id="idEdit" name="id" value="" readonly>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="" class="col-sm-2 col-form-label">First Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="firstname" id="firstnameEdit" value="">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="" class="col-sm-2 col-form-label">lastname</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="lastname" id="lastnameEdit" value="">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" name="email" id="emailEdit" value="">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="" class="col-sm-2 col-form-label">Gender</label>
+                            <div class="col-sm-10">
+                                <!-- <input type="text" class="form-control" name="gender" id="gender"> -->
+                                <select class="select p-2 text-bg-cyan-100" name="gender" id="genderEdit">
+                                    <option value="Male" id="female">Male</option>
+                                    <option value="Female" id="male">Female</option>
+                                    <option value="Other" id="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row form-action-buttons">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="script.js"></script>
 
 </html>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-    crossorigin="anonymous"></script>
-<!-- <script>
-    $(document).ready(function () {
-        $.getJSON("customers.json", function (data) {
-
-            var customer_data = '';
-
-            $.each(data, function (key, value) {
-                customer_data += '<tr>';
-                customer_data += '<td class="col-1">' + value.id + '</td>';
-                customer_data += '<td class="col-3">' + value.first_name + '</td>';
-                customer_data += '<td class="col-3">' + value.last_name + '</td>';
-                customer_data += '<td class="col-3">' + value.email + '</td>';
-                customer_data += '<td class="col-1">' + value.gender + '</td>';
-                customer_data += '</tr>';
-
-            });
-            $('#customer_table').append(customer_data);
-        });
-    });
-</script> -->
-<script src="script.js"></script>
