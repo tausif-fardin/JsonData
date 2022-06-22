@@ -1,50 +1,56 @@
+let ai_initial = 0;
+
+function idU() {
+    return ai_initial += 1;
+};
 
 let data = [
     {
-        id: 1,
+        id: idU(),
         first_name: "Juanita",
         last_name: "Churchlow",
         email: "jchurchlow0@mysql.com",
         gender: "Female"
     },
     {
-        id: 2,
+        id: idU(),
         first_name: "Odie",
         last_name: "Gheorghie",
         email: "ogheorghie1@bing.com",
         gender: "Male"
     },
     {
-        id: 3,
+        id: idU(),
         first_name: "Irwin",
         last_name: "Guye",
         email: "iguye2@mac.com",
         gender: "Male"
     },
     {
-        id: 4,
+        id: idU(),
         first_name: "Dacy",
         last_name: "Facher",
         email: "dfacher3@ucsd.edu",
         gender: "Female"
     },
     {
-        id: 5,
+        id: idU(),
         first_name: "Brenn",
         last_name: "Hancill",
         email: "bhancill4@slideshare.net",
         gender: "Female"
     }
 ]
+
 let table = document.getElementById('customer_table');
 data.map((data) => {
     let row = `<tr>
             <td class="col-2 col-xs-2 col-md-2">${data.id}</td>
-            <td  class="col-2 col-xs-2 col-md-2">${data.first_name}</td>
-            <td  class="col-2 col-xs-2 col-md-2">${data.last_name}</td>
-            <td  class="col-2 col-xs-2 col-md-2">${data.email}</td>
-            <td  class="col-2 col-xs-2 col-md-2">${data.gender}</td>
-            <td  class="col-2 col-xs-2 col-md-2"><button class="btn btn-primary m-3" onClick="onEdit(this)">Edit</button>
+            <td class="col-2 col-xs-2 col-md-2">${data.first_name}</td>
+            <td class="col-2 col-xs-2 col-md-2">${data.last_name}</td>
+            <td class="col-2 col-xs-2 col-md-2">${data.email}</td>
+            <td class="col-2 col-xs-2 col-md-2">${data.gender}</td>
+            <td class="col-2 col-xs-2 col-md-2"><button class="btn btn-primary m-3" id="btnEdit" onClick=onEdit(this)">Edit</button>
             <button class="btn btn-primary m-3" onClick="onDelete(this)">Delete</button></td>          
             </tr>`
     table.innerHTML += row;
@@ -53,7 +59,7 @@ data.map((data) => {
 var selectedRow = null
 
 function onFormSubmit() {
-    var formData = readFormData();
+    let formData = readFormData();
     if (selectedRow == null)
         insertNewRecord(formData);
     else
@@ -61,17 +67,18 @@ function onFormSubmit() {
     resetForm();
     var modal = document.getElementById("myModal");
     modal.style.display = "none";
+    var modal = document.getElementById("myModal2");
+    modal.style.display = "none";
 
 }
-
+//var formData = {};
 function readFormData() {
-    var formData = {};
-    formData["id"] = document.getElementById("id").value;
-    formData["firstname"] = document.getElementById("firstname").value;
-    formData["lastname"] = document.getElementById("lastname").value;
-    formData["email"] = document.getElementById("email").value;
-    formData["gender"] = document.getElementById("gender").value;
-    return formData;
+    data["id"] = document.getElementById("id").value;
+    data["firstname"] = document.getElementById("firstname").value;
+    data["lastname"] = document.getElementById("lastname").value;
+    data["email"] = document.getElementById("email").value;
+    data["gender"] = document.getElementById("gender").value;
+    return data;
 }
 
 function insertNewRecord(data) {
@@ -88,12 +95,12 @@ function insertNewRecord(data) {
     cell4 = newRow.insertCell(4);
     cell4.innerHTML = data.gender;
     cell5 = newRow.insertCell(5);
-    cell5.innerHTML = `<button class="btn btn-primary m-3" onClick="onEdit(this); openModal();">Edit</button>
+    cell5.innerHTML = `<button class="btn btn-primary m-3" id="btnEdit" onClick="onEdit(this)">Edit</button>
     <button class="btn btn-primary m-3" onClick="onDelete(this)">Delete</button>`;
 }
 
 function resetForm() {
-    document.getElementById("id").value = "";
+    document.getElementById("id").value = idU();
     document.getElementById("firstname").value = "";
     document.getElementById("lastname").value = "";
     document.getElementById("email").value = "";
@@ -102,6 +109,7 @@ function resetForm() {
 }
 
 function onEdit(td) {
+    console.log("fired");
     selectedRow = td.parentElement.parentElement;
     document.getElementById("id").value = selectedRow.cells[0].innerHTML;
     document.getElementById("firstname").value = selectedRow.cells[1].innerHTML;
@@ -109,12 +117,13 @@ function onEdit(td) {
     document.getElementById("email").value = selectedRow.cells[3].innerHTML;
     document.getElementById("gender").value = selectedRow.cells[4].innerHTML;
 }
-function updateRecord(formData) {
-    selectedRow.cells[0].innerHTML = formData.id;
-    selectedRow.cells[1].innerHTML = formData.firstname;
-    selectedRow.cells[2].innerHTML = formData.lastname;
-    selectedRow.cells[3].innerHTML = formData.email;
-    selectedRow.cells[4].innerHTML = formData.gender;
+
+function updateRecord(data) {
+    selectedRow.cells[0].innerHTML = data.id;
+    selectedRow.cells[1].innerHTML = data.firstname;
+    selectedRow.cells[2].innerHTML = data.lastname;
+    selectedRow.cells[3].innerHTML = data.email;
+    selectedRow.cells[4].innerHTML = data.gender;
 }
 
 function onDelete(td) {
@@ -127,17 +136,24 @@ function onDelete(td) {
 openModal();
 function openModal() {
     // Get the modal
-    var modal = document.getElementById("myModal");
+    let modal = document.getElementById("myModal");
+    data.id = document.getElementById('id').value = idU();
 
     // Get the button that opens the modal
-    var btn = document.getElementById("btnAdd");
+    let btn = document.getElementById("btnAdd");
+
     // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+    let span = document.getElementsByClassName("close")[0];
 
     // When the user clicks the button, open the modal 
     btn.onclick = function () {
         modal.style.display = "block";
     }
+    // var btn1 = document.getElementById("btnEdit");
+    // btn1.onclick = function () {
+    //     modal.style.display = "block";
+    //     onEdit(this);
+    // }
 
     // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
@@ -145,6 +161,27 @@ function openModal() {
     }
 
     // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+openModal2();
+
+function openModal2() {
+    let modal = document.getElementById("myModal2");
+    let btn2 = document.getElementById('btnEdit');
+    let span = document.getElementsByClassName("close2")[0];
+
+    btn2.onclick = () => {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
     window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
