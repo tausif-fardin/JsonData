@@ -30,7 +30,7 @@ let data = [
     },
     {
         id: 4,
-        first_name: "Dacy",
+        first_name: "Bacy",
         last_name: "Facher",
         email: "dfacher3@ucsd.edu",
         gender: "Female"
@@ -44,23 +44,25 @@ let data = [
     },
 ]
 
-
 /* Print data in table */
 let table = document.getElementById('user_table1');
 
 tableRefresh();
 function tableRefresh() {
     table.innerHTML = '';
-    data.map((d) => {
-        let row = `<tr style="text-align:center">
-                <td class="col-1 col-xs-1 col-md-1">${d.id}</td>
+    data.map((d, k) => {
+        let row = `<tr style="text-align:center">   
+                <td class="col-1 col-xs-1 col-md-1"><div>
+                <span>${d.id}</span></div></td>
                 <td class="col-2 col-xs-2 col-md-2">${d.first_name}</td>
                 <td class="col-2 col-xs-2 col-md-2">${d.last_name}</td>
                 <td class="col-2 col-xs-2 col-md-2">${d.email}</td>
                 <td class="col-2 col-xs-2 col-md-2">${d.gender}</td>
                 <td class="col-2 col-xs-2 col-md-2"><button type="button" class="btn btn-info" style="border:none;" data-bs-toggle="modal" data-bs-target="#exampleModal"
                 id="#edit" onclick="showEditModal(${d.id})"><i class="bi bi-pencil-square"></i></button>
-                <button class="btn btn-danger" style="border:none;" id="btnDelete" onClick="onDelete(${d.id})"><i class="bi bi-trash"></i></button></td>          
+                <button class="btn btn-danger" style="border:none;" id="btnDelete" onClick="onDelete(${d.id})"><i class="bi bi-trash"></i></button>
+                <button id="arrowDown" class="btn btn-default" onclick="goDown(this,${k})"><i class="bi bi-chevron-compact-down"></i></button>
+                <button id="arroUp" class="btn btn-default" onclick="goUp(this,${k})"><i class="bi bi-chevron-compact-up"></i></button></td>          
                 </tr>`
         table.innerHTML += row;
     });
@@ -131,4 +133,80 @@ function showEditModal(id) {
     // document.querySelector('input[name = genderEdit]').value = data[id - 1].gender;
     document.getElementById("updateuser").setAttribute("onSubmit", `event.preventDefault();onEditSubmit(${id});`);
     myModal2.show();
+}
+
+th = document.getElementsByTagName('th');
+th[0].addEventListener('click', function () {
+    if (data[0].id > data[1].id) {
+        data = data.sort((a, b) => a.id - b.id);
+    } else {
+        data = data.sort((a, b) => b.id - a.id);
+    }
+    console.log(data);
+    tableRefresh();
+});
+
+th[1].addEventListener('click', function () {
+
+    if (data[0].first_name < data[1].first_name) {
+        data = data.sort((a, b) => a.first_name.localeCompare(b.first_name));
+        data.reverse();
+    } else {
+        data = data.sort((a, b) => a.first_name.localeCompare(b.first_name));
+    }
+
+    console.log(data);
+    tableRefresh();
+});
+
+th[2].addEventListener('click', function () {
+    if (data[0].last_name < data[1].last_name) {
+        data = data.sort((a, b) => a.last_name.localeCompare(b.last_name));
+        data.reverse();
+    } else {
+        data = data.sort((a, b) => a.last_name.localeCompare(b.last_name));
+    }
+
+    console.log(data);
+    tableRefresh();
+});
+
+th[3].addEventListener('click', function () {
+    if (data[0].email < data[1].email) {
+        data = data.sort((a, b) => a.email.localeCompare(b.email));
+        data.reverse();
+    } else {
+        data = data.sort((a, b) => a.email.localeCompare(b.email));
+    }
+
+    console.log(data);
+    tableRefresh();
+});
+
+function goUp(x, indexId) {
+    if (indexId == 0) {
+        document.getElementById("")
+        return false;
+
+    }
+    let temp = 0;
+    console.log(indexId);
+    temp = data[indexId];
+    data[indexId] = data[indexId - 1];
+    data[indexId - 1] = temp;
+    tableRefresh();
+    console.log(data);
+}
+
+function goDown(x, indexId) {
+    if (indexId == data.length - 1) {
+        return false;
+    }
+    let temp = 0;
+    console.log(indexId);
+    temp = data[indexId];
+    data[indexId] = data[indexId + 1];
+    data[indexId + 1] = temp;
+    tableRefresh();
+    console.log(data);
 }
