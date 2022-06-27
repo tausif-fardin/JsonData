@@ -139,7 +139,7 @@ function showEditModal(id) {
         document.getElementById("inlineRadio11").checked = true;
     } else if (gValue === "Female") {
         document.getElementById("inlineRadio22").checked = true;
-    } else if (gValue === "Other") {
+    } else if (gValue === "Others") {
         document.getElementById("inlineRadio33").checked = true;
     }
     //document.querySelectorAll('input[value="${data[id - 1].gender}"]:checked')
