@@ -133,8 +133,17 @@ function showEditModal(id) {
     document.getElementById("firstnameEdit").value = data[id - 1].first_name;
     document.getElementById("lastnameEdit").value = data[id - 1].last_name;
     document.getElementById("emailEdit").value = data[id - 1].email;
-    document.querySelectorAll('input[value="${data[id - 1].gender}"]:checked')
-    document.getElementById("genderEdit").checked = data[id - 1].gender;
+    let gValue = data[id - 1].gender;
+    console.log(gValue);
+    if (gValue === "Male") {
+        document.getElementById("inlineRadio11").checked = true;
+    } else if (gValue === "Female") {
+        document.getElementById("inlineRadio22").checked = true;
+    } else if (gValue === "Other") {
+        document.getElementById("inlineRadio33").checked = true;
+    }
+    //document.querySelectorAll('input[value="${data[id - 1].gender}"]:checked')
+    //document.getElementById("genderEdit").checked = data[id - 1].gender;
     document.getElementById("updateuser").setAttribute("onSubmit", `event.preventDefault();onEditSubmit(${id});`);
     myModal2.show();
 }
