@@ -134,7 +134,6 @@ function showEditModal(id) {
     document.getElementById("lastnameEdit").value = data[id - 1].last_name;
     document.getElementById("emailEdit").value = data[id - 1].email;
     let gValue = data[id - 1].gender;
-    console.log(gValue);
     if (gValue === "Male") {
         document.getElementById("inlineRadio11").checked = true;
     } else if (gValue === "Female") {
@@ -216,4 +215,24 @@ function goDown(x, indexId) {
 
     tableRefresh();
     console.log(data);
+}
+
+function search() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.querySelector("#name-search");
+    filter = input.value.toUpperCase();
+    table = document.querySelector("#user_table1");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            console.log(txtValue);
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
 }

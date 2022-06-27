@@ -44,6 +44,10 @@
     <!-- Button trigger modal -->
     <div class="d-flex justify-content-between container-sm">
         <h2 class=" m-2 p-2 bd-highlight">Users List</h2>
+        <div class="col-auto">
+            <input type="search" id="name-search" class="form-control justify-content-end m-3" onkeyup="search()"
+                placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+        </div>
         <button type="button" class="btn btn-success m-3" data-bs-toggle="modal" data-bs-target="#exampleModal"
             id="#add" onclick="showRegModal()">
             <i class="bi bi-plus-circle"></i> Add
@@ -52,7 +56,7 @@
 
     <!-- Registration Modal -->
     <div class="modal fade" id="regModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Registration</h5>
