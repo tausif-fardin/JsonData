@@ -61,8 +61,11 @@ function tableRefresh() {
                 <td class="col-2 col-xs-2 col-md-2"><button type="button" class="btn btn-info" style="border:none;" data-bs-toggle="modal" data-bs-target="#exampleModal"
                 id="#edit" onclick="showEditModal(${d.id})"><i class="bi bi-pencil-square"></i></button>
                 <button class="btn btn-danger" style="border:none;" id="btnDelete" onClick="onDelete(${d.id})"><i class="bi bi-trash"></i></button>
-                <button id="arrowDown" class="btn btn-default" onclick="goDown(this,${k})"><i class="bi bi-chevron-compact-down"></i></button>
-                <button id="arroUp" class="btn btn-default" onclick="goUp(this,${k})"><i class="bi bi-chevron-compact-up"></i></button></td>          
+                
+                <button ${k == data.length - 1 ? "disabled" : ""} id="arrowDown" class="btn btn-warning" onclick="goDown(this,${k});"><i class="bi bi-chevron-compact-down" style="font-weight: bold;"></i></button>
+
+                <button ${k == 0 ? "disabled" : ""} id="arrowUp" class="btn btn-primary" onclick="goUp(this,${k})"><i class="bi bi-lg bi-chevron-compact-up" style="font-weight: bold;"></i></button></td>
+
                 </tr>`
         table.innerHTML += row;
     });
@@ -130,7 +133,8 @@ function showEditModal(id) {
     document.getElementById("firstnameEdit").value = data[id - 1].first_name;
     document.getElementById("lastnameEdit").value = data[id - 1].last_name;
     document.getElementById("emailEdit").value = data[id - 1].email;
-    // document.querySelector('input[name = genderEdit]').value = data[id - 1].gender;
+    document.querySelectorAll('input[value="${data[id - 1].gender}"]:checked')
+    document.getElementById("genderEdit").checked = data[id - 1].gender;
     document.getElementById("updateuser").setAttribute("onSubmit", `event.preventDefault();onEditSubmit(${id});`);
     myModal2.show();
 }
@@ -184,29 +188,23 @@ th[3].addEventListener('click', function () {
 });
 
 function goUp(x, indexId) {
-    if (indexId == 0) {
-        document.getElementById("")
-        return false;
-
-    }
     let temp = 0;
-    console.log(indexId);
     temp = data[indexId];
     data[indexId] = data[indexId - 1];
     data[indexId - 1] = temp;
+
     tableRefresh();
     console.log(data);
 }
 
 function goDown(x, indexId) {
-    if (indexId == data.length - 1) {
-        return false;
-    }
     let temp = 0;
     console.log(indexId);
     temp = data[indexId];
     data[indexId] = data[indexId + 1];
     data[indexId + 1] = temp;
+    document.getElementById('arrowDown').onclick = true;
+
     tableRefresh();
     console.log(data);
 }
