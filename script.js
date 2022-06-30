@@ -42,6 +42,42 @@ let data = [
         email: "bhancill4@slideshare.net",
         gender: "Female"
     },
+    {
+        id: 6,
+        first_name: "Juanita",
+        last_name: "Churchlow",
+        email: "jchurchlow0@mysql.com",
+        gender: "Female",
+
+    },
+    {
+        id: 7,
+        first_name: "Odie",
+        last_name: "Gheorghie",
+        email: "ogheorghie1@bing.com",
+        gender: "Male"
+    },
+    {
+        id: 8,
+        first_name: "Irwin",
+        last_name: "Guye",
+        email: "iguye2@mac.com",
+        gender: "Male"
+    },
+    {
+        id: 9,
+        first_name: "Bacy",
+        last_name: "Facher",
+        email: "dfacher3@ucsd.edu",
+        gender: "Female"
+    },
+    {
+        id: 10,
+        first_name: "Brenn",
+        last_name: "Hancill",
+        email: "bhancill4@slideshare.net",
+        gender: "Female"
+    },
 ]
 
 /* Print data in table */
@@ -60,7 +96,7 @@ function tableRefresh() {
                 <td class="col-2 col-xs-2 col-md-2">${d.gender}</td>
                 <td class="col-2 col-xs-2 col-md-2"><button type="button" class="btn btn-info" style="border:none;" data-bs-toggle="modal" data-bs-target="#exampleModal"
                 id="#edit" onclick="showEditModal(${d.id})"><i class="bi bi-pencil-square"></i></button>
-                <button class="btn btn-danger" style="border:none;" id="btnDelete" onClick="onDelete(${d.id})"><i class="bi bi-trash"></i></button>
+                <button class="btn btn-danger" style="border:none;" id="btnDelete" onClick="onDelete(${d.id},this)"><i class="bi bi-trash"></i></button>
                 
                 <button ${k == data.length - 1 ? "disabled" : ""} id="arrowDown" class="btn btn-warning" onclick="goDown(this,${k});"><i class="bi bi-chevron-compact-down" style="font-weight: bold;"></i></button>
 
@@ -81,7 +117,7 @@ function onFormSubmit() {
     newData["gender"] = document.querySelector('input[name = gender]:checked').value;
     data.push(newData);
     myModal.hide();
-    tableRefresh();
+    changePage(Math.ceil(data.length / 5));
     document.getElementById("toastoast").style.color = "green";
     document.getElementById("toastoast").innerHTML = 'Registered Successfully';
     toaster.show();
@@ -94,7 +130,7 @@ function onEditSubmit(id) {
     data[id - 1].email = document.getElementById("emailEdit").value;
     data[id - 1].gender = document.querySelector('input[name = genderEdit]:checked').value;
     myModal2.hide();
-    tableRefresh();
+    changePage(1);
     document.getElementById("toastoast").style.color = "green";
     document.getElementById("toastoast").innerHTML = 'Updated Successfully';
     toaster.show();
@@ -110,14 +146,17 @@ function resetForm() {
 }
 
 /* Delete row */
-function onDelete(id) {
+function onDelete(id, o) {
     if (confirm('Are you sure to delete this record ?')) {
         var index = data.findIndex(function (o) {
             return o.id === id;
         })
         data.splice(index, 1);
-        document.getElementById("user_table").deleteRow(index + 1);
+        var p = o.parentNode.parentNode;
+        p.parentNode.removeChild(p);
+
     }
+
     document.getElementById("toastoast").style.color = "red";
     document.getElementById("toastoast").innerHTML = 'Deleted Successfully';
     toaster.show();
@@ -155,7 +194,7 @@ th[0].addEventListener('click', function () {
         data = data.sort((a, b) => b.id - a.id);
     }
     console.log(data);
-    tableRefresh();
+    changePage(1);
 });
 
 th[1].addEventListener('click', function () {
@@ -168,7 +207,8 @@ th[1].addEventListener('click', function () {
     }
 
     console.log(data);
-    tableRefresh();
+    changePage(1);
+
 });
 
 th[2].addEventListener('click', function () {
@@ -180,7 +220,8 @@ th[2].addEventListener('click', function () {
     }
 
     console.log(data);
-    tableRefresh();
+    changePage(1);
+
 });
 
 th[3].addEventListener('click', function () {
@@ -192,7 +233,8 @@ th[3].addEventListener('click', function () {
     }
 
     console.log(data);
-    tableRefresh();
+    changePage(1);
+
 });
 
 function goUp(x, indexId) {
@@ -201,7 +243,7 @@ function goUp(x, indexId) {
     data[indexId] = data[indexId - 1];
     data[indexId - 1] = temp;
 
-    tableRefresh();
+    changePage(Math.ceil(indexId / 5));
     console.log(data);
 }
 
@@ -213,7 +255,7 @@ function goDown(x, indexId) {
     data[indexId + 1] = temp;
     document.getElementById('arrowDown').onclick = true;
 
-    tableRefresh();
+    changePage(Math.ceil(indexId / 5));
     console.log(data);
 }
 
@@ -237,3 +279,80 @@ function search() {
     }
     /* GIt commit */
 }
+/*  Adding pagination */
+// selecting required element
+
+
+//creating an array for adding numbers in a page
+var current_page = 1;
+var records_per_page = 5;
+
+function prevPage() {
+    if (current_page > 1) {
+        current_page--;
+        changePage(current_page);
+    }
+}
+
+function nextPage() {
+    if (current_page < numPages()) {
+        current_page++;
+        changePage(current_page);
+    }
+}
+let btn_next = document.getElementById("next");
+let btn_prev = document.getElementById("previous");
+function changePage(page) {
+
+    var listing_table = document.getElementById("user_table1");
+    var page_span = document.getElementById("page");
+
+    // Validate page
+    if (page < 1) page = 1;
+    if (page > numPages()) page = numPages();
+
+    listing_table.innerHTML = '';
+
+    for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < data.length; i++) {
+        console.log(data[i]);
+        let row = `<tr style="text-align:center">   
+                <td class="col-1 col-xs-1 col-md-1"><div>
+                <span>${data[i].id}</span></div></td>
+                <td class="col-2 col-xs-2 col-md-2">${data[i].first_name}</td>
+                <td class="col-2 col-xs-2 col-md-2">${data[i].last_name}</td>
+                <td class="col-2 col-xs-2 col-md-2">${data[i].email}</td>
+                <td class="col-2 col-xs-2 col-md-2">${data[i].gender}</td>
+                <td class="col-2 col-xs-2 col-md-2"><button type="button" class="btn btn-info" style="border:none;" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                id="#edit" onclick="showEditModal(${data[i].id})"><i class="bi bi-pencil-square"></i></button>
+                <button class="btn btn-danger" style="border:none;" id="btnDelete" onClick="onDelete(${data[i].id},this)"><i class="bi bi-trash"></i></button>
+                
+                <button ${i == data.length - 1 ? "disabled" : ""} id="arrowDown" class="btn btn-warning" onclick="goDown(this,${i});"><i class="bi bi-chevron-compact-down" style="font-weight: bold;"></i></button>
+
+                <button ${i == 0 ? "disabled" : ""} id="arrowUp" class="btn btn-primary" onclick="goUp(this,${i})"><i class="bi bi-lg bi-chevron-compact-up" style="font-weight: bold;"></i></button></td>
+
+                </tr>`
+        listing_table.innerHTML += row;
+
+    }
+    page_span.innerHTML = page;
+
+    if (page == 1) {
+        btn_prev.disabled = true;
+    } else {
+        btn_prev.disabled = false;
+    }
+
+    if (page == numPages()) {
+        btn_next.disabled = true;
+    } else {
+        btn_next.disabled = false;
+    }
+}
+
+function numPages() {
+    return Math.ceil(data.length / records_per_page);
+}
+
+window.onload = function () {
+    changePage(1);
+};
