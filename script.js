@@ -3,7 +3,7 @@
 // let ai_initial = 0;
 let myModal = new bootstrap.Modal(document.getElementById("regModal"));
 let myModal2 = new bootstrap.Modal(document.getElementById("editModal"));
-let toaster = new bootstrap.Toast(document.getElementById("regToast"),);
+let toaster = new bootstrap.Toast(document.getElementById("regToast"));
 
 let data = [
     {
