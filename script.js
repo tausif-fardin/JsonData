@@ -3,7 +3,7 @@
 // let ai_initial = 0;
 let myModal = new bootstrap.Modal(document.getElementById("regModal"));
 let myModal2 = new bootstrap.Modal(document.getElementById("editModal"));
-let toaster = new bootstrap.Toast(document.getElementById("regToast"));
+let toaster = new bootstrap.Toast(document.getElementById("regToast"),);
 
 let data = [
     {
@@ -117,7 +117,7 @@ function onFormSubmit() {
     newData["gender"] = document.querySelector('input[name = gender]:checked').value;
     data.push(newData);
     myModal.hide();
-    changePage(Math.ceil(data.length / 5));
+    renderPage(current_page);
     document.getElementById("toastoast").style.color = "green";
     document.getElementById("toastoast").innerHTML = 'Registered Successfully';
     toaster.show();
@@ -130,7 +130,7 @@ function onEditSubmit(id) {
     data[id - 1].email = document.getElementById("emailEdit").value;
     data[id - 1].gender = document.querySelector('input[name = genderEdit]:checked').value;
     myModal2.hide();
-    changePage(1);
+    renderPage(current_page);
     document.getElementById("toastoast").style.color = "green";
     document.getElementById("toastoast").innerHTML = 'Updated Successfully';
     toaster.show();
@@ -243,7 +243,7 @@ function goUp(x, indexId) {
     data[indexId] = data[indexId - 1];
     data[indexId - 1] = temp;
 
-    changePage(Math.ceil(indexId / 5));
+    renderPage(current_page);
     console.log(data);
 }
 
@@ -255,7 +255,8 @@ function goDown(x, indexId) {
     data[indexId + 1] = temp;
     document.getElementById('arrowDown').onclick = true;
 
-    changePage(Math.ceil(indexId / 5));
+    renderPage(current_page);
+
     console.log(data);
 }
 
@@ -263,7 +264,7 @@ function search() {
     var input, filter, table, tr, td, i, txtValue;
     input = document.querySelector("#name-search");
     filter = input.value.toUpperCase();
-    table = document.querySelector("#user_table1");
+    table = document.querySelector("#user_table");
     tr = table.getElementsByTagName("tr");
     for (i = 0; i < tr.length; i++) {
         td = tr[i].getElementsByTagName("td")[1];
@@ -277,82 +278,85 @@ function search() {
             }
         }
     }
-    /* GIt commit */
 }
-/*  Adding pagination */
-// selecting required element
+/* Pagination */
+
+const PAGE_SIZE = 3;
+const MAX_PAGE_NUMBER = Math.floor(data.length / PAGE_SIZE);
+console.log(MAX_PAGE_NUMBER);
+let listing_table = document.getElementById("user_table1");
 
 
-//creating an array for adding numbers in a page
-var current_page = 1;
-var records_per_page = 5;
+const updateButtons = page_number => {
+    const buttons = [...document.querySelectorAll(".page-number")];
+    buttons.forEach(btn => btn.textContent = "-");
 
-function prevPage() {
-    if (current_page > 1) {
-        current_page--;
-        changePage(current_page);
+    for (let i = 0; i < buttons.length && i + page_number <= MAX_PAGE_NUMBER; i++) {
+        buttons[i].textContent = i + page_number + 1;
     }
-}
-
-function nextPage() {
-    if (current_page < numPages()) {
-        current_page++;
-        changePage(current_page);
-    }
-}
-let btn_next = document.getElementById("next");
-let btn_prev = document.getElementById("previous");
-function changePage(page) {
-
-    var listing_table = document.getElementById("user_table1");
-    var page_span = document.getElementById("page");
-
-    // Validate page
-    if (page < 1) page = 1;
-    if (page > numPages()) page = numPages();
-
-    listing_table.innerHTML = '';
-
-    for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < data.length; i++) {
-        console.log(data[i]);
-        let row = `<tr style="text-align:center">   
-                <td class="col-1 col-xs-1 col-md-1"><div>
-                <span>${data[i].id}</span></div></td>
-                <td class="col-2 col-xs-2 col-md-2">${data[i].first_name}</td>
-                <td class="col-2 col-xs-2 col-md-2">${data[i].last_name}</td>
-                <td class="col-2 col-xs-2 col-md-2">${data[i].email}</td>
-                <td class="col-2 col-xs-2 col-md-2">${data[i].gender}</td>
-                <td class="col-2 col-xs-2 col-md-2"><button type="button" class="btn btn-info" style="border:none;" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                id="#edit" onclick="showEditModal(${data[i].id})"><i class="bi bi-pencil-square"></i></button>
-                <button class="btn btn-danger" style="border:none;" id="btnDelete" onClick="onDelete(${data[i].id},this)"><i class="bi bi-trash"></i></button>
-                
-                <button ${i == data.length - 1 ? "disabled" : ""} id="arrowDown" class="btn btn-warning" onclick="goDown(this,${i});"><i class="bi bi-chevron-compact-down" style="font-weight: bold;"></i></button>
-
-                <button ${i == 0 ? "disabled" : ""} id="arrowUp" class="btn btn-primary" onclick="goUp(this,${i})"><i class="bi bi-lg bi-chevron-compact-up" style="font-weight: bold;"></i></button></td>
-
-                </tr>`
-        listing_table.innerHTML += row;
-
-    }
-    page_span.innerHTML = page;
-
-    if (page == 1) {
-        btn_prev.disabled = true;
-    } else {
-        btn_prev.disabled = false;
-    }
-
-    if (page == numPages()) {
-        btn_next.disabled = true;
-    } else {
-        btn_next.disabled = false;
-    }
-}
-
-function numPages() {
-    return Math.ceil(data.length / records_per_page);
-}
-
-window.onload = function () {
-    changePage(1);
 };
+
+function appendRow(newData) {
+    var row = '';
+    newData.forEach((data, k) => {
+        row += `<tr style="text-align:center">   
+        <td class="col-1 col-xs-1 col-md-1"><div>
+        <span>${data.id}</span></div></td>
+        <td class="col-2 col-xs-2 col-md-2">${data.first_name}</td>
+        <td class="col-2 col-xs-2 col-md-2">${data.last_name}</td>
+        <td class="col-2 col-xs-2 col-md-2">${data.email}</td>
+        <td class="col-2 col-xs-2 col-md-2">${data.gender}</td>
+        <td class="col-2 col-xs-2 col-md-2"><button type="button" class="btn btn-info" style="border:none;" data-bs-toggle="modal" data-bs-target="#exampleModal"
+        id="#edit" onclick="showEditModal(${data.id})"><i class="bi bi-pencil-square"></i></button>
+        <button class="btn btn-danger" style="border:none;" id="btnDelete" onClick="onDelete(${data.id},this)"><i class="bi bi-trash"></i></button>
+
+        <button ${k == data.length - 1 ? "disabled" : ""} id="arrowDown" class="btn btn-warning" onclick="goDown(this,${k});"><i class="bi bi-chevron-compact-down" style="font-weight: bold;"></i></button>
+
+        <button ${k == 0 ? "disabled" : ""} id="arrowUp" class="btn btn-primary" onclick="goUp(this,${k})"><i class="bi bi-lg bi-chevron-compact-up" style="font-weight: bold;"></i></button></td>
+
+        </tr>`;
+        //console.log(row);
+    });
+    listing_table.innerHTML += row;
+}
+
+const getIncludedRows = page_number => {
+    const start = page_number * PAGE_SIZE;
+    const end = (page_number + 1) * PAGE_SIZE;
+    return data.slice(start, end);
+};
+
+const renderPage = page_number => {
+    listing_table.innerHTML = "";
+    var newData = [];
+    for (const row of getIncludedRows(page_number)) {
+        console.log(row);
+        newData.push(row);
+    }
+    console.log(newData);
+    appendRow(newData);
+    updateButtons(page_number);
+};
+
+let current_page = 0;
+const setPage = new_page => {
+    current_page = new_page;
+    renderPage(current_page);
+};
+
+document.querySelectorAll(".page-number").forEach(button => {
+    button.addEventListener("click", () => {
+        if (button.textContent === "-") return;
+        setPage(button.textContent - 1); // -1 because page numbers have +1
+    });
+});
+
+document.querySelector("#next").addEventListener("click", () => {
+    setPage(Math.min(current_page + 1, MAX_PAGE_NUMBER));
+});
+
+document.querySelector("#previous").addEventListener("click", () => {
+    setPage(Math.max(current_page - 1, 0));
+});
+
+renderPage(current_page);
