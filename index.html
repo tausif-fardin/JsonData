@@ -42,12 +42,18 @@
     <br>
     <br><br>
     <!-- Button trigger modal -->
+    <div class="d-flex justify-content-end input-group" style="padding-right: 8%;">
+        <div class="form-outline">
+            <input type="search" id="name-search" class="form-control" placeholder="Search" aria-label="Search"
+                aria-describedby="search-addon" />
+        </div>
+        <div class="col-auto ps-2">
+            <button type="button" class="form-control" id="btn-search" onclick="search()"><i
+                    class="bi bi-search"></i></button>
+        </div>
+    </div>
     <div class="d-flex justify-content-between container-sm">
         <h2 class=" m-2 p-2 bd-highlight">Users List</h2>
-        <div class="col-auto">
-            <input type="search" id="name-search" class="form-control justify-content-end m-3" onkeyup="search()"
-                placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-        </div>
         <button type="button" class="btn btn-success m-3" data-bs-toggle="modal" data-bs-target="#exampleModal"
             id="#add" onclick="showRegModal()">
             <i class="bi bi-plus-circle"></i> Add
@@ -152,7 +158,7 @@
                     </tr>
                 </tbody>
             </table>
-            <nav aria-label="Page navigation example">
+            <nav aria-label="Page navigation example" style="position: relative;">
                 <ul class="pagination">
 
                     <li class="page-item"><a class="page-link" id="previous" href="#">Previous</a></li>
@@ -161,7 +167,10 @@
                     <li class="page-item"><a class="page-link page-number" href="#">3</a></li>
                     <li class="page-item"><a class="page-link" id="next" href="#">Next</a></li>
                 </ul>
+                <p id="rowcount" style="position: absolute;bottom: 8px;right: 16px;font-size: 18px;">_</p>
+
             </nav>
+
         </div>
     </div>
     </div>

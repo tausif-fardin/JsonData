@@ -259,22 +259,27 @@ function search() {
     filter = input.value.toUpperCase();
     table = document.querySelector("#user_table");
     tr = table.getElementsByTagName("tr");
+    let count = 0;
     for (i = 0; i < tr.length; i++) {
         td = tr[i].getElementsByTagName("td");
         for (let j = 0; j < td.length; j++) {
             if (td[j]) {
                 txtValue = td[j].textContent || td[j].innerText;
-                console.log(txtValue);
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                    break;
-                } else {
-                    tr[i].style.display = "none";
+                if (filter.length > 2) {
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        count++;
+                        tr[i].style.display = "";
+                        break;
+                    } else {
+                        tr[i].style.display = "none";
+                    }
                 }
+
             }
         }
-
     }
+    document.getElementById('rowcount').innerHTML = `${count} rows found.`;
+
 }
 /* Pagination */
 
@@ -357,3 +362,19 @@ document.querySelector("#previous").addEventListener("click", () => {
 });
 
 renderPage(current_page);
+
+function CountRows() {
+    var totalRowCount = 0;
+    var rowCount = 0;
+    var table = document.getElementById("user_table");
+    var rows = table.getElementsByTagName("tr")
+    for (var i = 0; i < rows.length; i++) {
+        totalRowCount++;
+        if (rows[i].getElementsByTagName("td").length > 0) {
+            rowCount++;
+        }
+    }
+    var message = "Total Row Count: " + totalRowCount;
+    message += "\nRow Count: " + rowCount;
+    console.log(message);
+}
