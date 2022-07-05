@@ -193,8 +193,7 @@ th[0].addEventListener('click', function () {
     } else {
         data = data.sort((a, b) => b.id - a.id);
     }
-    console.log(data);
-    changePage(1);
+    renderPage(current_page);
 });
 
 th[1].addEventListener('click', function () {
@@ -205,9 +204,8 @@ th[1].addEventListener('click', function () {
     } else {
         data = data.sort((a, b) => a.first_name.localeCompare(b.first_name));
     }
+    renderPage(current_page);
 
-    console.log(data);
-    changePage(1);
 
 });
 
@@ -218,9 +216,8 @@ th[2].addEventListener('click', function () {
     } else {
         data = data.sort((a, b) => a.last_name.localeCompare(b.last_name));
     }
+    renderPage(current_page);
 
-    console.log(data);
-    changePage(1);
 
 });
 
@@ -231,9 +228,8 @@ th[3].addEventListener('click', function () {
     } else {
         data = data.sort((a, b) => a.email.localeCompare(b.email));
     }
+    renderPage(current_page);
 
-    console.log(data);
-    changePage(1);
 
 });
 
@@ -242,9 +238,8 @@ function goUp(x, indexId) {
     temp = data[indexId];
     data[indexId] = data[indexId - 1];
     data[indexId - 1] = temp;
-
     renderPage(current_page);
-    console.log(data);
+
 }
 
 function goDown(x, indexId) {
@@ -254,29 +249,31 @@ function goDown(x, indexId) {
     data[indexId] = data[indexId + 1];
     data[indexId + 1] = temp;
     document.getElementById('arrowDown').onclick = true;
-
     renderPage(current_page);
 
-    console.log(data);
 }
 
 function search() {
-    var input, filter, table, tr, td, i, txtValue;
+    let input, filter, table, tr, td, i, txtValue;
     input = document.querySelector("#name-search");
     filter = input.value.toUpperCase();
     table = document.querySelector("#user_table");
     tr = table.getElementsByTagName("tr");
     for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[1];
-        if (td) {
-            txtValue = td.textContent || td.innerText;
-            console.log(txtValue);
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
+        td = tr[i].getElementsByTagName("td");
+        for (let j = 0; j < td.length; j++) {
+            if (td[j]) {
+                txtValue = td[j].textContent || td[j].innerText;
+                console.log(txtValue);
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                    break;
+                } else {
+                    tr[i].style.display = "none";
+                }
             }
         }
+
     }
 }
 /* Pagination */
