@@ -96,12 +96,9 @@ function tableRefresh() {
                 <td class="col-2 col-xs-2 col-md-2">${d.gender}</td>
                 <td class="col-2 col-xs-2 col-md-2"><button type="button" class="btn btn-info" style="border:none;" data-bs-toggle="modal" data-bs-target="#exampleModal"
                 id="#edit" onclick="showEditModal(${d.id})"><i class="bi bi-pencil-square"></i></button>
-                <button class="btn btn-danger" style="border:none;" id="btnDelete" onClick="onDelete(${d.id},this)"><i class="bi bi-trash"></i></button>
-                
+                <button class="btn btn-danger" style="border:none;" id="btnDelete" onClick="onDelete(${d.id},this)"><i class="bi bi-trash"></i></button>             
                 <button ${k == data.length - 1 ? "disabled" : ""} id="arrowDown" class="btn btn-warning" onclick="goDown(this,${k});"><i class="bi bi-chevron-compact-down" style="font-weight: bold;"></i></button>
-
                 <button ${k == 0 ? "disabled" : ""} id="arrowUp" class="btn btn-primary" onclick="goUp(this,${k})"><i class="bi bi-lg bi-chevron-compact-up" style="font-weight: bold;"></i></button></td>
-
                 </tr>`
         table.innerHTML += row;
     });
@@ -154,9 +151,7 @@ function onDelete(id, o) {
         data.splice(index, 1);
         var p = o.parentNode.parentNode;
         p.parentNode.removeChild(p);
-
     }
-
     document.getElementById("toastoast").style.color = "red";
     document.getElementById("toastoast").innerHTML = 'Deleted Successfully';
     toaster.show();
@@ -205,8 +200,6 @@ th[1].addEventListener('click', function () {
         data = data.sort((a, b) => a.first_name.localeCompare(b.first_name));
     }
     renderPage(current_page);
-
-
 });
 
 th[2].addEventListener('click', function () {
@@ -217,8 +210,6 @@ th[2].addEventListener('click', function () {
         data = data.sort((a, b) => a.last_name.localeCompare(b.last_name));
     }
     renderPage(current_page);
-
-
 });
 
 th[3].addEventListener('click', function () {
@@ -229,8 +220,6 @@ th[3].addEventListener('click', function () {
         data = data.sort((a, b) => a.email.localeCompare(b.email));
     }
     renderPage(current_page);
-
-
 });
 
 function goUp(x, indexId) {
@@ -239,7 +228,6 @@ function goUp(x, indexId) {
     data[indexId] = data[indexId - 1];
     data[indexId - 1] = temp;
     renderPage(current_page);
-
 }
 
 function goDown(x, indexId) {
@@ -250,7 +238,6 @@ function goDown(x, indexId) {
     data[indexId + 1] = temp;
     document.getElementById('arrowDown').onclick = true;
     renderPage(current_page);
-
 }
 
 function search() {
@@ -259,6 +246,15 @@ function search() {
     filter = input.value.toUpperCase();
     table = document.querySelector("#user_table");
     tr = table.getElementsByTagName("tr");
+
+    for (let k = 0; k < data.length; k++) {
+        if (filter == data[k].first_name.toUpperCase() || filter == data[k].last_name || filter == data[k].email || filter == data[k].gender) {
+            let cPage = Math.ceil(data.indexOf(data[k]) / 3) + 1;
+            console.log(cPage);
+            renderPage(cPage);
+            break;
+        }
+    }
     let count = 0;
     for (i = 0; i < tr.length; i++) {
         td = tr[i].getElementsByTagName("td");
@@ -362,19 +358,3 @@ document.querySelector("#previous").addEventListener("click", () => {
 });
 
 renderPage(current_page);
-
-function CountRows() {
-    var totalRowCount = 0;
-    var rowCount = 0;
-    var table = document.getElementById("user_table");
-    var rows = table.getElementsByTagName("tr")
-    for (var i = 0; i < rows.length; i++) {
-        totalRowCount++;
-        if (rows[i].getElementsByTagName("td").length > 0) {
-            rowCount++;
-        }
-    }
-    var message = "Total Row Count: " + totalRowCount;
-    message += "\nRow Count: " + rowCount;
-    console.log(message);
-}
