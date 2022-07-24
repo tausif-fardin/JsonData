@@ -4,19 +4,19 @@ const bodyParser = require('body-parser');
 const path = require('path');
 require('dotenv').config();
 
-const router = require('Router');
-
 app.set("view engine", "ejs");
 
 app.use(express.static(path.join(__dirname, "public")));
 console.log(__dirname);
 
 app.use(bodyParser.urlencoded({ extended: true }));
-
+const usersRoute = require('./server/routes/route.js')
 
 app.get('/', function (req, res) {
     res.render("index");
 });
+
+app.use('/users', usersRoute);
 
 const PORT = process.env.PORT || 5000
 
