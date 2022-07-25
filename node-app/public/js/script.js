@@ -4,6 +4,7 @@
 let myModal = new bootstrap.Modal(document.getElementById("regModal"));
 let myModal2 = new bootstrap.Modal(document.getElementById("editModal"));
 let toaster = new bootstrap.Toast(document.getElementById("regToast"),);
+let regForm = document.querySelector("#adduser");
 
 let dataLength = 0;
 
@@ -16,6 +17,8 @@ async function tableRefresh() {
     console.log(data.length); // This is only accessible inside the function
     return data; // allows for .then and await to function
 }
+
+
 
 let data = await tableRefresh();
 dataLength = data.length;
@@ -55,26 +58,51 @@ console.log(dataLength);
 console.log(dataLength);
 /* Insert into data */
 
-function onFormSubmit() {
-    let newData = [];
-    newData["id"] = document.getElementById("id").value = data[data.length - 1].id + 1;
-    newData["first_name"] = document.getElementById("firstname").value;
-    newData["last_name"] = document.getElementById("lastname").value;
-    newData["email"] = document.getElementById("email").value;
-    newData["gender"] = document.querySelector('input[name = gender]:checked').value;
-    console.log(newData);
-    data.push(newData);
-    myModal.hide();
-    renderPage(current_page);
-    document.getElementById("toastoast").style.color = "green";
-    document.getElementById("toastoast").innerHTML = 'Registered Successfully';
-    toaster.show();
-    console.log(data);
+// function onFormSubmit() {
+//     let newData = [];
+//     newData["id"] = document.getElementById("id").value = data[data.length - 1].id + 1;
+//     newData["first_name"] = document.getElementById("firstname").value;
+//     newData["last_name"] = document.getElementById("lastname").value;
+//     newData["email"] = document.getElementById("email").value;
+//     newData["gender"] = document.querySelector('input[name = gender]:checked').value;
+//     console.log(newData);
+//     data.push(newData);
+//     myModal.hide();
+//     renderPage(current_page);
+//     document.getElementById("toastoast").style.color = "green";
+//     document.getElementById("toastoast").innerHTML = 'Registered Successfully';
+//     toaster.show();
+//     console.log(data);
 
-}
+// }
+regForm.addEventListener("submit", (e) => {
 
-document.getElementById("btnRegister").addEventListener('click', function () {
-    onFormSubmit();
+    e.preventDefault();
+
+    const first_name = document.getElementById("firstname").value;
+    const last_name = document.getElementById("lastname").value;
+    const email = document.getElementById("email").value;
+    const gender = document.querySelector('input[name = gender]:checked').value;
+
+
+    if (!first_name.value || !last_name.value || !email.value || !gender.value) return;
+
+    const user = { first_name, last_name, email, gender };
+    try {
+        const response = fetch('http://localhost:3000/users/addUser', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(user),
+        });
+
+        if (response.status === 200) {
+            resetForm(current_page);
+        }
+    } catch (error) {
+        console.log(error);
+    }
 })
 function onEditSubmit(id) {
     //data["id"] = document.getElementById("id").value;
