@@ -104,7 +104,7 @@ const addUser = (req, res, next) => {
         gender: req.body.gender
     }
     data.push(user);
-
+    console.log(req.body);
     res.send('added users');
 
 }

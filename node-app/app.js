@@ -9,8 +9,8 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 console.log(__dirname);
 
-app.use(bodyParser.urlencoded({ extended: true }));
-
+//app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 const usersRoute = require('./server/routes/route.js')
 app.use(express.urlencoded());
 
