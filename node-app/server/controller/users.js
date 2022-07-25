@@ -1,3 +1,4 @@
+
 let data = [
     {
         id: 1,
@@ -72,7 +73,6 @@ let data = [
         gender: "Female"
     },
 ]
-// for parsing application/json
 
 //All users
 
@@ -95,15 +95,61 @@ const getUsers = (req, res, next) => {
 
 
 const addUser = (req, res, next) => {
-    console.log('entered addUser');
-    res.render('../views/index.ejs', {
-        id: req.body.id,
-        first_name: req.body.firstname,
-        last_name: req.body.lastname,
+
+    const user = {
+        id: data.length + 1,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
         email: req.body.email,
         gender: req.body.gender
-    })
+    }
+    data.push(user);
+
     res.send('added users');
 
 }
-module.exports = { allUsers, getUsers, addUser };
+
+//Update user
+
+const updateUser = (req, res, next) => {
+    let id = req.params.id;
+    let first_name = req.body.first_name;
+    let last_name = req.body.last_name;
+    let email = req.body.email;
+    let gender = req.body.gender;
+
+    let index = data.findIndex((user) => {
+        return (user.id === Number.parseInt(id))
+    })
+
+    if (index >= 0) {
+        const us = data[index];
+        us.first_name = first_name;
+        us.last_name = last_name;
+        us.email = email;
+        us.gender = gender;
+        res.json(us);
+    } else {
+        res.status(404);
+        res.end();
+    }
+}
+
+//delete user
+const deleteUser = (req, res, next) => {
+    let id = req.params.id;
+    let index = data.findIndex((user) => {
+        return (user.id === Number.parseInt(id))
+    })
+
+    if (index > 0) {
+        let us = data[index]
+        data.splice(index, 1)
+        res.json(us)
+    } else {
+        res.status(404)
+    }
+
+
+}
+module.exports = { allUsers, getUsers, addUser, updateUser, deleteUser };
