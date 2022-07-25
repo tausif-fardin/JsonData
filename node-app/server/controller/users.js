@@ -72,6 +72,7 @@ let data = [
         gender: "Female"
     },
 ]
+// for parsing application/json
 
 //All users
 
@@ -92,15 +93,16 @@ const getUsers = (req, res, next) => {
 
 // Add user
 
+
 const addUser = (req, res, next) => {
-    const newUser = {
-        id: req.body.id + 1,
+    console.log('entered addUser');
+    res.render('../views/index.ejs', {
+        id: req.body.id,
         first_name: req.body.firstname,
         last_name: req.body.lastname,
         email: req.body.email,
         gender: req.body.gender
-    }
-    data.push(newUser);
+    })
     res.send('added users');
 
 }

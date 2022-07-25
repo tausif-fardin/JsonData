@@ -10,67 +10,72 @@ let dataLength = 0;
 /* Print data in table */
 let table = document.getElementById('user_table1');
 
+async function tableRefresh() {
+    const response = await fetch('http://localhost:3000/users');
+    const data = await response.json();
+    console.log(data.length); // This is only accessible inside the function
+    return data; // allows for .then and await to function
+}
+
+let data = await tableRefresh();
+dataLength = data.length;
+console.log(dataLength);
+
 // tableRefresh();
 // function tableRefresh() {
 //     table.innerHTML = '';
-//     // fetch('http://localhost:3000/users')
-//     //     .then((response) => {
-//     //         return response.json();
-//     //     })
-//     //     .then((data) => {
-//     //         dataLength = data.length;
-//     //         console.log(dataLength);
-
-//     //         data.map((d, k) => {
-//     //             let row = `<tr style="text-align:center">   
-//     //                     <td class="col-1 col-xs-1 col-md-1"><div>
-//     //                     <span>${d.id}</span></div></td>
-//     //                     <td class="col-2 col-xs-2 col-md-2">${d.first_name}</td>
-//     //                     <td class="col-2 col-xs-2 col-md-2">${d.last_name}</td>
-//     //                     <td class="col-2 col-xs-2 col-md-2">${d.email}</td>
-//     //                     <td class="col-2 col-xs-2 col-md-2">${d.gender}</td>
-//     //                     <td class="col-2 col-xs-2 col-md-2"><button type="button" class="btn btn-info" style="border:none;" data-bs-toggle="modal" data-bs-target="#exampleModal"
-//     //                     id="#edit" onclick="showEditModal(${d.id})"><i class="bi bi-pencil-square"></i></button>
-//     //                     <button class="btn btn-danger" style="border:none;" id="btnDelete" onClick="onDelete(${d.id},this)"><i class="bi bi-trash"></i></button>             
-//     //                     <button ${k == data.length - 1 ? "disabled" : ""} id="arrowDown" class="btn btn-warning" onclick="goDown(this,${k});"><i class="bi bi-chevron-compact-down" style="font-weight: bold;"></i></button>
-//     //                     <button ${k == 0 ? "disabled" : ""} id="arrowUp" class="btn btn-primary" onclick="goUp(this,${k})"><i class="bi bi-lg bi-chevron-compact-up" style="font-weight: bold;"></i></button></td>
-//     //                     </tr>`
-//     //             table.innerHTML += row;
-//     //         })
-//     //     })
-//     //     .catch(function (err) {
-//     //         console.log("Unable to fetch -", err);
-//     //     });
-// }
-/* Insert into data */
-
-// function onFormSubmit() {
-//     fetch('http://localhost:3000/users/addUser')
+//     fetch('http://localhost:3000/users')
 //         .then((response) => {
-//             response.text("User added successfully");
+//             return response.json();
 //         })
-//         // .then((data) => {
-//         //     let newData = [];
-//         //     newData["id"] = document.getElementById("id").value = data[data.length - 1].id + 1;
-//         //     newData["first_name"] = document.getElementById("firstname").value;
-//         //     newData["last_name"] = document.getElementById("lastname").value;
-//         //     newData["email"] = document.getElementById("email").value;
-//         //     newData["gender"] = document.querySelector('input[name = gender]:checked').value;
-//         //     const pushData = JSON.parse(newData);
-//         //     data.push(pushData);
-//         //     myModal.hide();
-//         //     renderPage(current_page);
-//         //     document.getElementById("toastoast").style.color = "green";
-//         //     document.getElementById("toastoast").innerHTML = 'Registered Successfully';
-//         //     toaster.show();
-//         //     console.log(data);
-
-//         // })
+//         .then((data) => {
+//             dataLength = data.length;
+//             console.log(dataLength);
+//             // data.map((d, k) => {
+//             //     let row = `<tr style="text-align:center">   
+//             //             <td class="col-1 col-xs-1 col-md-1"><div>
+//             //             <span>${d.id}</span></div></td>
+//             //             <td class="col-2 col-xs-2 col-md-2">${d.first_name}</td>
+//             //             <td class="col-2 col-xs-2 col-md-2">${d.last_name}</td>
+//             //             <td class="col-2 col-xs-2 col-md-2">${d.email}</td>
+//             //             <td class="col-2 col-xs-2 col-md-2">${d.gender}</td>
+//             //             <td class="col-2 col-xs-2 col-md-2"><button type="button" class="btn btn-info" style="border:none;" data-bs-toggle="modal" data-bs-target="#exampleModal"
+//             //             id="#edit" onclick="showEditModal(${d.id})"><i class="bi bi-pencil-square"></i></button>
+//             //             <button class="btn btn-danger" style="border:none;" id="btnDelete" onClick="onDelete(${d.id},this)"><i class="bi bi-trash"></i></button>             
+//             //             <button ${k == data.length - 1 ? "disabled" : ""} id="arrowDown" class="btn btn-warning" onclick="goDown(this,${k});"><i class="bi bi-chevron-compact-down" style="font-weight: bold;"></i></button>
+//             //             <button ${k == 0 ? "disabled" : ""} id="arrowUp" class="btn btn-primary" onclick="goUp(this,${k})"><i class="bi bi-lg bi-chevron-compact-up" style="font-weight: bold;"></i></button></td>
+//             //             </tr>`
+//             //     table.innerHTML += row;
+//             // })
+//         })
 //         .catch(function (err) {
 //             console.log("Unable to fetch -", err);
 //         });
 // }
+console.log(dataLength);
+/* Insert into data */
 
+function onFormSubmit() {
+    let newData = [];
+    newData["id"] = document.getElementById("id").value = data[data.length - 1].id + 1;
+    newData["first_name"] = document.getElementById("firstname").value;
+    newData["last_name"] = document.getElementById("lastname").value;
+    newData["email"] = document.getElementById("email").value;
+    newData["gender"] = document.querySelector('input[name = gender]:checked').value;
+    console.log(newData);
+    data.push(newData);
+    myModal.hide();
+    renderPage(current_page);
+    document.getElementById("toastoast").style.color = "green";
+    document.getElementById("toastoast").innerHTML = 'Registered Successfully';
+    toaster.show();
+    console.log(data);
+
+}
+
+document.getElementById("btnRegister").addEventListener('click', function () {
+    onFormSubmit();
+})
 function onEditSubmit(id) {
     //data["id"] = document.getElementById("id").value;
     data[id - 1].first_name = document.getElementById("firstnameEdit").value;
@@ -107,10 +112,11 @@ function onDelete(id, o) {
     document.getElementById("toastoast").innerHTML = 'Deleted Successfully';
     toaster.show();
 }
-/* Show reg modal on click */
-function showRegModal() {
+
+let btn_add = document.getElementById("add");
+btn_add.addEventListener("click", function () {
     myModal.show();
-}
+})
 
 /* Show update modal on click */
 function showEditModal(id) {
@@ -132,7 +138,7 @@ function showEditModal(id) {
     myModal2.show();
 }
 
-th = document.getElementsByTagName('th');
+let th = document.getElementsByTagName('th');
 th[0].addEventListener('click', function () {
     if (data[0].id > data[1].id) {
         data = data.sort((a, b) => a.id - b.id);
@@ -268,13 +274,13 @@ function appendRow(newData) {
     });
     listing_table.innerHTML += row;
 }
-const asynchronousFunction = async () => {
-    const response = await fetch('http://localhost:3000/users')
-    return response.json();
-}
+// const asynchronousFunction = async () => {
+//     const response = await fetch('http://localhost:3000/users')
+//     return response.json();
+// }
 
 async function getIncludedRows(page_number) {
-    const result = await asynchronousFunction()
+    const result = await tableRefresh();;
     const start = page_number * PAGE_SIZE;
     const end = (page_number + 1) * PAGE_SIZE;
     console.log(result);

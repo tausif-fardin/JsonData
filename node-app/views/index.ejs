@@ -55,7 +55,7 @@
     <div class="d-flex justify-content-between container-sm">
         <h2 class=" m-2 p-2 bd-highlight">Users List</h2>
         <button type="button" class="btn btn-success m-3" data-bs-toggle="modal" data-bs-target="#exampleModal"
-            id="#add" onclick="showRegModal()">
+            id="add">
             <i class="bi bi-plus-circle"></i> Add
         </button>
     </div>
@@ -69,8 +69,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="adduser" action="/addUser" method="post"
-                        onsubmit="event.preventDefault();onFormSubmit(); resetForm();" autocomplete="off">
+                    <form id="adduser" action="/users/addUser" method="post" onsubmit="event.preventDefault();"
+                        autocomplete="off">
                         <div class="mb-3 row">
                             <label for="" hidden class="col-sm-2 col-form-label">ID</label>
                             <div class="col-sm-10">
@@ -180,25 +180,26 @@
                         <div class="mb-3 row">
                             <label for="" hidden class="col-sm-2 col-form-label">ID</label>
                             <div class="col-sm-10">
-                                <input type="hidden" class="form-control" id="idEdit" name="id" value="" readonly>
+                                <input type="hidden" class="form-control" id="idEdit" name="idEdit" value="" readonly>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="" class="col-sm-2 col-form-label">First Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="firstname" id="firstnameEdit" value="">
+                                <input type="text" class="form-control" name="firstnameEdit" id="firstnameEdit"
+                                    value="">
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="" class="col-sm-2 col-form-label">Last Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="lastname" id="lastnameEdit" value="">
+                                <input type="text" class="form-control" name="lastnameEdit" id="lastnameEdit" value="">
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="" class="col-sm-2 col-form-label">Email</label>
                             <div class="col-sm-10">
-                                <input type="email" class="form-control" name="email" id="emailEdit" value="">
+                                <input type="email" class="form-control" name="emailEdit" id="emailEdit" value="">
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -248,6 +249,6 @@
 
 </body>
 
-<script src="/js/script.js"></script>
+<script src="/js/script.js" type="module"></script>
 
 </html>
