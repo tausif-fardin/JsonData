@@ -73,16 +73,15 @@ let data = [
     },
 ]
 
-
 //All users
 
-const allUsers = (req, res) => {
+const allUsers = (req, res, next) => {
     res.send(data);
 }
 
 //Get users by id
 
-const getUsers = (req, res) => {
+const getUsers = (req, res, next) => {
     const found = data.some(user => user.id === parseInt(req.params.id));
     if (found) {
         res.json(users.filter(user => user.id === parseInt(req.params.id)));
@@ -91,4 +90,18 @@ const getUsers = (req, res) => {
     }
 }
 
-module.exports = { allUsers, getUsers, data };
+// Add user
+
+const addUser = (req, res, next) => {
+    const newUser = {
+        id: req.body.id + 1,
+        first_name: req.body.firstname,
+        last_name: req.body.lastname,
+        email: req.body.email,
+        gender: req.body.gender
+    }
+    data.push(newUser);
+    res.send('added users');
+
+}
+module.exports = { allUsers, getUsers, addUser };

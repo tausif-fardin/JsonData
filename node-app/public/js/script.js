@@ -5,133 +5,71 @@ let myModal = new bootstrap.Modal(document.getElementById("regModal"));
 let myModal2 = new bootstrap.Modal(document.getElementById("editModal"));
 let toaster = new bootstrap.Toast(document.getElementById("regToast"),);
 
-// let data = [
-//     {
-//         id: 1,
-//         first_name: "Juanita",
-//         last_name: "Churchlow",
-//         email: "jchurchlow0@mysql.com",
-//         gender: "Female",
-
-//     },
-//     {
-//         id: 2,
-//         first_name: "Odie",
-//         last_name: "Gheorghie",
-//         email: "ogheorghie1@bing.com",
-//         gender: "Male"
-//     },
-//     {
-//         id: 3,
-//         first_name: "Irwin",
-//         last_name: "Guye",
-//         email: "iguye2@mac.com",
-//         gender: "Male"
-//     },
-//     {
-//         id: 4,
-//         first_name: "Bacy",
-//         last_name: "Facher",
-//         email: "dfacher3@ucsd.edu",
-//         gender: "Female"
-//     },
-//     {
-//         id: 5,
-//         first_name: "Brenn",
-//         last_name: "Hancill",
-//         email: "bhancill4@slideshare.net",
-//         gender: "Female"
-//     },
-//     {
-//         id: 6,
-//         first_name: "Juanita",
-//         last_name: "Churchlow",
-//         email: "jchurchlow0@mysql.com",
-//         gender: "Female",
-
-//     },
-//     {
-//         id: 7,
-//         first_name: "Odie",
-//         last_name: "Gheorghie",
-//         email: "ogheorghie1@bing.com",
-//         gender: "Male"
-//     },
-//     {
-//         id: 8,
-//         first_name: "Irwin",
-//         last_name: "Guye",
-//         email: "iguye2@mac.com",
-//         gender: "Male"
-//     },
-//     {
-//         id: 9,
-//         first_name: "Bacy",
-//         last_name: "Facher",
-//         email: "dfacher3@ucsd.edu",
-//         gender: "Female"
-//     },
-//     {
-//         id: 10,
-//         first_name: "Brenn",
-//         last_name: "Hancill",
-//         email: "bhancill4@slideshare.net",
-//         gender: "Female"
-//     },
-// ]
+let dataLength = 0;
 
 /* Print data in table */
 let table = document.getElementById('user_table1');
 
-tableRefresh();
-function tableRefresh() {
-    table.innerHTML = '';
-    fetch('http://localhost:3000/users')
-        .then((response) => {
-            console.log(response.json());
-        })
-        .then((data) => {
-            console.log(data.length);
-            console.log(data);
-            data.map((d, k) => {
-                let row = `<tr style="text-align:center">   
-                        <td class="col-1 col-xs-1 col-md-1"><div>
-                        <span>${d.id}</span></div></td>
-                        <td class="col-2 col-xs-2 col-md-2">${d.first_name}</td>
-                        <td class="col-2 col-xs-2 col-md-2">${d.last_name}</td>
-                        <td class="col-2 col-xs-2 col-md-2">${d.email}</td>
-                        <td class="col-2 col-xs-2 col-md-2">${d.gender}</td>
-                        <td class="col-2 col-xs-2 col-md-2"><button type="button" class="btn btn-info" style="border:none;" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                        id="#edit" onclick="showEditModal(${d.id})"><i class="bi bi-pencil-square"></i></button>
-                        <button class="btn btn-danger" style="border:none;" id="btnDelete" onClick="onDelete(${d.id},this)"><i class="bi bi-trash"></i></button>             
-                        <button ${k == data.length - 1 ? "disabled" : ""} id="arrowDown" class="btn btn-warning" onclick="goDown(this,${k});"><i class="bi bi-chevron-compact-down" style="font-weight: bold;"></i></button>
-                        <button ${k == 0 ? "disabled" : ""} id="arrowUp" class="btn btn-primary" onclick="goUp(this,${k})"><i class="bi bi-lg bi-chevron-compact-up" style="font-weight: bold;"></i></button></td>
-                        </tr>`
-                table.innerHTML += row;
-            })
-                .catch(function (err) {
-                    console.log("Unable to fetch -", err);
-                });
+// tableRefresh();
+// function tableRefresh() {
+//     table.innerHTML = '';
+//     // fetch('http://localhost:3000/users')
+//     //     .then((response) => {
+//     //         return response.json();
+//     //     })
+//     //     .then((data) => {
+//     //         dataLength = data.length;
+//     //         console.log(dataLength);
 
-        });
-
-}
+//     //         data.map((d, k) => {
+//     //             let row = `<tr style="text-align:center">   
+//     //                     <td class="col-1 col-xs-1 col-md-1"><div>
+//     //                     <span>${d.id}</span></div></td>
+//     //                     <td class="col-2 col-xs-2 col-md-2">${d.first_name}</td>
+//     //                     <td class="col-2 col-xs-2 col-md-2">${d.last_name}</td>
+//     //                     <td class="col-2 col-xs-2 col-md-2">${d.email}</td>
+//     //                     <td class="col-2 col-xs-2 col-md-2">${d.gender}</td>
+//     //                     <td class="col-2 col-xs-2 col-md-2"><button type="button" class="btn btn-info" style="border:none;" data-bs-toggle="modal" data-bs-target="#exampleModal"
+//     //                     id="#edit" onclick="showEditModal(${d.id})"><i class="bi bi-pencil-square"></i></button>
+//     //                     <button class="btn btn-danger" style="border:none;" id="btnDelete" onClick="onDelete(${d.id},this)"><i class="bi bi-trash"></i></button>             
+//     //                     <button ${k == data.length - 1 ? "disabled" : ""} id="arrowDown" class="btn btn-warning" onclick="goDown(this,${k});"><i class="bi bi-chevron-compact-down" style="font-weight: bold;"></i></button>
+//     //                     <button ${k == 0 ? "disabled" : ""} id="arrowUp" class="btn btn-primary" onclick="goUp(this,${k})"><i class="bi bi-lg bi-chevron-compact-up" style="font-weight: bold;"></i></button></td>
+//     //                     </tr>`
+//     //             table.innerHTML += row;
+//     //         })
+//     //     })
+//     //     .catch(function (err) {
+//     //         console.log("Unable to fetch -", err);
+//     //     });
+// }
 /* Insert into data */
 
-function onFormSubmit() {
-    let newData = [];
-    newData["id"] = document.getElementById("id").value = data[data.length - 1].id + 1;
-    newData["first_name"] = document.getElementById("firstname").value;
-    newData["last_name"] = document.getElementById("lastname").value;
-    newData["email"] = document.getElementById("email").value;
-    newData["gender"] = document.querySelector('input[name = gender]:checked').value;
-    data.push(newData);
-    myModal.hide();
-    renderPage(current_page);
-    document.getElementById("toastoast").style.color = "green";
-    document.getElementById("toastoast").innerHTML = 'Registered Successfully';
-    toaster.show();
-}
+// function onFormSubmit() {
+//     fetch('http://localhost:3000/users/addUser')
+//         .then((response) => {
+//             response.text("User added successfully");
+//         })
+//         // .then((data) => {
+//         //     let newData = [];
+//         //     newData["id"] = document.getElementById("id").value = data[data.length - 1].id + 1;
+//         //     newData["first_name"] = document.getElementById("firstname").value;
+//         //     newData["last_name"] = document.getElementById("lastname").value;
+//         //     newData["email"] = document.getElementById("email").value;
+//         //     newData["gender"] = document.querySelector('input[name = gender]:checked').value;
+//         //     const pushData = JSON.parse(newData);
+//         //     data.push(pushData);
+//         //     myModal.hide();
+//         //     renderPage(current_page);
+//         //     document.getElementById("toastoast").style.color = "green";
+//         //     document.getElementById("toastoast").innerHTML = 'Registered Successfully';
+//         //     toaster.show();
+//         //     console.log(data);
+
+//         // })
+//         .catch(function (err) {
+//             console.log("Unable to fetch -", err);
+//         });
+// }
 
 function onEditSubmit(id) {
     //data["id"] = document.getElementById("id").value;
@@ -293,7 +231,7 @@ function search() {
 /* Pagination */
 
 const PAGE_SIZE = 3;
-const MAX_PAGE_NUMBER = Math.floor(data.length / PAGE_SIZE);
+const MAX_PAGE_NUMBER = Math.floor(dataLength / PAGE_SIZE);
 console.log(MAX_PAGE_NUMBER);
 let listing_table = document.getElementById("user_table1");
 
@@ -330,23 +268,30 @@ function appendRow(newData) {
     });
     listing_table.innerHTML += row;
 }
+const asynchronousFunction = async () => {
+    const response = await fetch('http://localhost:3000/users')
+    return response.json();
+}
 
-const getIncludedRows = page_number => {
+async function getIncludedRows(page_number) {
+    const result = await asynchronousFunction()
     const start = page_number * PAGE_SIZE;
     const end = (page_number + 1) * PAGE_SIZE;
-    return data.slice(start, end);
-};
+    console.log(result);
+    return result.slice(start, end);
 
+}
 const renderPage = page_number => {
     listing_table.innerHTML = "";
     var newData = [];
-    for (const row of getIncludedRows(page_number)) {
-        console.log(row);
-        newData.push(row);
-    }
-    console.log(newData);
-    appendRow(newData);
-    updateButtons(page_number);
+    getIncludedRows(page_number).then(data => {
+        data.forEach(row => {
+            newData.push(row);
+        })
+    }).then(() => {
+        appendRow(newData);
+        updateButtons(page_number);
+    })
 };
 
 let current_page = 0;
@@ -372,18 +317,18 @@ document.querySelector("#previous").addEventListener("click", () => {
 
 renderPage(current_page);
 
-function CountRows() {
-    var totalRowCount = 0;
-    var rowCount = 0;
-    var table = document.getElementById("user_table");
-    var rows = table.getElementsByTagName("tr")
-    for (var i = 0; i < rows.length; i++) {
-        totalRowCount++;
-        if (rows[i].getElementsByTagName("td").length > 0) {
-            rowCount++;
-        }
-    }
-    var message = "Total Row Count: " + totalRowCount;
-    message += "\nRow Count: " + rowCount;
-    console.log(message);
-}
+// function CountRows() {
+//     var totalRowCount = 0;
+//     var rowCount = 0;
+//     var table = document.getElementById("user_table");
+//     var rows = table.getElementsByTagName("tr")
+//     for (var i = 0; i < rows.length; i++) {
+//         totalRowCount++;
+//         if (rows[i].getElementsByTagName("td").length > 0) {
+//             rowCount++;
+//         }
+//     }
+//     var message = "Total Row Count: " + totalRowCount;
+//     message += "\nRow Count: " + rowCount;
+//     console.log(message);
+// }
