@@ -1,13 +1,10 @@
 
-/* Auto increment id value */
-
-// let ai_initial = 0;
 let myModal = new bootstrap.Modal(document.getElementById("regModal"));
 let myModal2 = new bootstrap.Modal(document.getElementById("editModal"));
 let toaster = new bootstrap.Toast(document.getElementById("regToast"),);
 let regForm = document.querySelector("#adduser");
 let editForm = document.querySelector("#updateuser");
-
+window.showEditModal = showEditModal;
 
 let dataLength = 0;
 
@@ -21,10 +18,10 @@ async function tableRefresh() {
     return data; // allows for .then and await to function
 }
 
-
-
 let data = await tableRefresh();
+
 dataLength = data.length;
+
 console.log(dataLength);
 
 // tableRefresh();
@@ -58,28 +55,12 @@ console.log(dataLength);
 //             console.log("Unable to fetch -", err);
 //         });
 // }
-console.log(dataLength);
+
 /* Insert into data */
 
-// function onFormSubmit() {
-//     let newData = [];
-//     newData["id"] = document.getElementById("id").value = data[data.length - 1].id + 1;
-//     newData["first_name"] = document.getElementById("firstname").value;
-//     newData["last_name"] = document.getElementById("lastname").value;
-//     newData["email"] = document.getElementById("email").value;
-//     newData["gender"] = document.querySelector('input[name = gender]:checked').value;
-//     console.log(newData);
-//     data.push(newData);
-//     myModal.hide();
-//     renderPage(current_page);
-//     document.getElementById("toastoast").style.color = "green";
-//     document.getElementById("toastoast").innerHTML = 'Registered Successfully';
-//     toaster.show();
-//     console.log(data);
-
-// }
+// add user
 regForm.addEventListener("submit", (e) => {
-    console.log("entered form");
+
     e.preventDefault();
     const first_name = document.getElementById("firstname").value;
     const last_name = document.getElementById("lastname").value;
@@ -105,13 +86,15 @@ regForm.addEventListener("submit", (e) => {
     myModal.hide();
 })
 
-
+//-------------------------------
+//Show edit modal on click edit button
 function showEditModal(id) {
-    document.getElementById("idEdit").value = data[id - 1].id;
-    document.getElementById("firstnameEdit").value = data[id - 1].first_name;
-    document.getElementById("lastnameEdit").value = data[id - 1].last_name;
-    document.getElementById("emailEdit").value = data[id - 1].email;
-    let gValue = data[id - 1].gender;
+    document.getElementById("idEdit").value = data[id].id;
+    console.log(data[id].id);
+    document.getElementById("firstnameEdit").value = data[id].first_name;
+    document.getElementById("lastnameEdit").value = data[id].last_name;
+    document.getElementById("emailEdit").value = data[id].email;
+    let gValue = data[id].gender;
     if (gValue === "Male") {
         document.getElementById("inlineRadio11").checked = true;
     } else if (gValue === "Female") {
@@ -119,12 +102,8 @@ function showEditModal(id) {
     } else if (gValue === "Others") {
         document.getElementById("inlineRadio33").checked = true;
     }
-    //document.querySelectorAll('input[value="${data[id - 1].gender}"]:checked')
-    //document.getElementById("genderEdit").checked = data[id - 1].gender;
-    //document.getElementById("updateuser").setAttribute("onSubmit", `event.preventDefault();onEditSubmit(${id});`);
     myModal2.show();
 }
-
 
 function onEditSubmit(id) {
     //data["id"] = document.getElementById("id").value;
@@ -298,7 +277,6 @@ function appendRow(newData) {
         <button ${k == 0 ? "disabled" : ""} id="arrowUp" class="btn btn-primary" onclick="goUp(this,${k})"><i class="bi bi-lg bi-chevron-compact-up" style="font-weight: bold;"></i></button></td>
 
         </tr>`;
-        //console.log(row);
     });
     listing_table.innerHTML += row;
 }
@@ -307,7 +285,7 @@ function appendRow(newData) {
 
 
 async function getIncludedRows(page_number) {
-    const result = await tableRefresh();;
+    const result = await tableRefresh();
     const start = page_number * PAGE_SIZE;
     const end = (page_number + 1) * PAGE_SIZE;
     console.log(result);
