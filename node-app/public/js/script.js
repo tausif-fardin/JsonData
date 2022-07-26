@@ -105,38 +105,27 @@ regForm.addEventListener("submit", (e) => {
     myModal.hide();
 })
 
-editForm.addEventListener("submit", (e) => {
-    console.log("entered form edit");
-    e.preventDefault();
-    const id = document.getElementById("idEdit").value;
-    const first_name = document.getElementById("firstname").value;
-    const last_name = document.getElementById("lastname").value;
-    const email = document.getElementById("email").value;
-    const gender = document.querySelector('input[name = gender]:checked').value;
-    const user = { first_name, last_name, email, gender };
-    try {
-        const response = fetch(`http://localhost:3000/users/updateUser/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify(user),
-        });
 
-        if (response.status === 200) {
-            myModal2.hide();
-            renderPage(current_page);
-            document.getElementById("toastoast").style.color = "green";
-            document.getElementById("toastoast").innerHTML = 'Updated Successfully';
-            toaster.show();
-            document.querySelector('input[name="genderEdit"]:checked').checked = false;
-            resetForm(current_page);
-        }
-    } catch (error) {
-        console.log(error);
+function showEditModal(id) {
+    document.getElementById("idEdit").value = data[id - 1].id;
+    document.getElementById("firstnameEdit").value = data[id - 1].first_name;
+    document.getElementById("lastnameEdit").value = data[id - 1].last_name;
+    document.getElementById("emailEdit").value = data[id - 1].email;
+    let gValue = data[id - 1].gender;
+    if (gValue === "Male") {
+        document.getElementById("inlineRadio11").checked = true;
+    } else if (gValue === "Female") {
+        document.getElementById("inlineRadio22").checked = true;
+    } else if (gValue === "Others") {
+        document.getElementById("inlineRadio33").checked = true;
     }
-    myModal.hide();
-})
+    //document.querySelectorAll('input[value="${data[id - 1].gender}"]:checked')
+    //document.getElementById("genderEdit").checked = data[id - 1].gender;
+    //document.getElementById("updateuser").setAttribute("onSubmit", `event.preventDefault();onEditSubmit(${id});`);
+    myModal2.show();
+}
+
+
 function onEditSubmit(id) {
     //data["id"] = document.getElementById("id").value;
     data[id - 1].first_name = document.getElementById("firstnameEdit").value;
@@ -301,7 +290,7 @@ function appendRow(newData) {
         <td class="col-2 col-xs-2 col-md-2">${data.email}</td>
         <td class="col-2 col-xs-2 col-md-2">${data.gender}</td>
         <td class="col-2 col-xs-2 col-md-2"><button type="button" class="btn btn-info" style="border:none;" data-bs-toggle="modal" data-bs-target="#exampleModal"
-        id="#edit" onclick="alert()"><i class="bi bi-pencil-square"></i></button>
+        id="#edit" onclick="showEditModal(id)"><i class="bi bi-pencil-square"></i></button>
         <button class="btn btn-danger" style="border:none;" id="btnDelete" onClick="onDelete(${data.id},this)"><i class="bi bi-trash"></i></button>
 
         <button ${k == data.length - 1 ? "disabled" : ""} id="arrowDown" class="btn btn-warning" onclick="goDown(this,${k});"><i class="bi bi-chevron-compact-down" style="font-weight: bold;"></i></button>
@@ -314,26 +303,7 @@ function appendRow(newData) {
     listing_table.innerHTML += row;
 }
 
-document.getElementById("edit").addEventListener("click", showEditModal(id));
 
-function showEditModal(id) {
-    document.getElementById("idEdit").value = data[id - 1].id;
-    document.getElementById("firstnameEdit").value = data[id - 1].first_name;
-    document.getElementById("lastnameEdit").value = data[id - 1].last_name;
-    document.getElementById("emailEdit").value = data[id - 1].email;
-    let gValue = data[id - 1].gender;
-    if (gValue === "Male") {
-        document.getElementById("inlineRadio11").checked = true;
-    } else if (gValue === "Female") {
-        document.getElementById("inlineRadio22").checked = true;
-    } else if (gValue === "Others") {
-        document.getElementById("inlineRadio33").checked = true;
-    }
-    //document.querySelectorAll('input[value="${data[id - 1].gender}"]:checked')
-    //document.getElementById("genderEdit").checked = data[id - 1].gender;
-    //document.getElementById("updateuser").setAttribute("onSubmit", `event.preventDefault();onEditSubmit(${id});`);
-    myModal2.show();
-}
 
 
 async function getIncludedRows(page_number) {
