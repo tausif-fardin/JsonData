@@ -5,6 +5,12 @@ let toaster = new bootstrap.Toast(document.getElementById("regToast"),);
 let regForm = document.querySelector("#adduser");
 let editForm = document.querySelector("#updateuser");
 window.showEditModal = showEditModal;
+window.onDelete = onDelete;
+window.goUp = goUp;
+window.goDown = goDown;
+
+
+
 
 let dataLength = 0;
 
@@ -84,17 +90,19 @@ regForm.addEventListener("submit", (e) => {
         console.log(error);
     }
     myModal.hide();
+    renderPage(current_page);
 })
 
 //-------------------------------
 //Show edit modal on click edit button
 function showEditModal(id) {
-    document.getElementById("idEdit").value = data[id].id;
-    console.log(data[id].id);
-    document.getElementById("firstnameEdit").value = data[id].first_name;
-    document.getElementById("lastnameEdit").value = data[id].last_name;
-    document.getElementById("emailEdit").value = data[id].email;
-    let gValue = data[id].gender;
+    console.log(id);
+    console.log(data[id]);
+    document.getElementById("idEdit").value = data[id - 1].id;
+    document.getElementById("firstnameEdit").value = data[id - 1].first_name;
+    document.getElementById("lastnameEdit").value = data[id - 1].last_name;
+    document.getElementById("emailEdit").value = data[id - 1].email;
+    let gValue = data[id - 1].gender;
     if (gValue === "Male") {
         document.getElementById("inlineRadio11").checked = true;
     } else if (gValue === "Female") {
@@ -105,14 +113,34 @@ function showEditModal(id) {
     myModal2.show();
 }
 
-function onEditSubmit(id) {
-    //data["id"] = document.getElementById("id").value;
-    data[id - 1].first_name = document.getElementById("firstnameEdit").value;
-    data[id - 1].last_name = document.getElementById("lastnameEdit").value;
-    data[id - 1].email = document.getElementById("emailEdit").value;
-    data[id - 1].gender = document.querySelector('input[name = genderEdit]:checked').value;
+//Update user data
+editForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const id = document.getElementById("idEdit").value;
+    const first_name = document.getElementById("firstnameEdit").value;
+    const last_name = document.getElementById("lastnameEdit").value;
+    const email = document.getElementById("emailEdit").value;
+    const gender = document.querySelector('input[name = genderEdit]:checked').value;
+    const user = { first_name, last_name, email, gender };
+    try {
+        const response = fetch(`http://localhost:3000/users/updateUser/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(user),
+        });
 
-}
+        if (response.status === 200) {
+
+            resetForm(current_page);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    myModal2.hide();
+    renderPage(current_page);
+})
 
 /* Reset form data */
 function resetForm() {
@@ -124,16 +152,28 @@ function resetForm() {
 
 /* Delete row */
 function onDelete(id, o) {
+    console.log(id);
     if (confirm('Are you sure to delete this record ?')) {
-        var index = data.findIndex(function (o) {
-            return o.id === id;
-        })
-        data.splice(index, 1);
-        var p = o.parentNode.parentNode;
-        p.parentNode.removeChild(p);
+        try {
+            const response = fetch(`http://localhost:3000/users/deleteUser/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+            });
+
+            if (response.status === 200) {
+                var p = o.parentNode.parentNode;
+                p.parentNode.removeChild(p);
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
+    console.log(data);
     document.getElementById("toastoast").style.color = "red";
     document.getElementById("toastoast").innerHTML = 'Deleted Successfully';
+    renderPage(current_page);
     toaster.show();
 }
 
@@ -269,7 +309,7 @@ function appendRow(newData) {
         <td class="col-2 col-xs-2 col-md-2">${data.email}</td>
         <td class="col-2 col-xs-2 col-md-2">${data.gender}</td>
         <td class="col-2 col-xs-2 col-md-2"><button type="button" class="btn btn-info" style="border:none;" data-bs-toggle="modal" data-bs-target="#exampleModal"
-        id="#edit" onclick="showEditModal(id)"><i class="bi bi-pencil-square"></i></button>
+        id="#edit" onclick="showEditModal(${data.id})"><i class="bi bi-pencil-square"></i></button>
         <button class="btn btn-danger" style="border:none;" id="btnDelete" onClick="onDelete(${data.id},this)"><i class="bi bi-trash"></i></button>
 
         <button ${k == data.length - 1 ? "disabled" : ""} id="arrowDown" class="btn btn-warning" onclick="goDown(this,${k});"><i class="bi bi-chevron-compact-down" style="font-weight: bold;"></i></button>
@@ -280,8 +320,6 @@ function appendRow(newData) {
     });
     listing_table.innerHTML += row;
 }
-
-
 
 
 async function getIncludedRows(page_number) {

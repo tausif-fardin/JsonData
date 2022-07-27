@@ -83,16 +83,19 @@ const allUsers = (req, res, next) => {
 //Get users by id
 
 const getUsers = (req, res, next) => {
-    const found = data.some(user => user.id === parseInt(req.params.id));
-    if (found) {
-        res.json(users.filter(user => user.id === parseInt(req.params.id)));
-    } else {
-        res.sendStatus(400);
-    }
-}
+    const filters = req.query;
+    const filteredUsers = data.filter(user => {
+        let isValid = true;
+        for (key in filters) {
+            console.log(key, user[key], filters[key]);
+            isValid = isValid && user[key] == filters[key];
+        }
+        return isValid;
+    });
+    res.send(filteredUsers);
+};
 
 // Add user
-
 
 const addUser = (req, res, next) => {
 
@@ -137,19 +140,6 @@ const updateUser = (req, res, next) => {
 
 //delete user
 const deleteUser = (req, res, next) => {
-    let id = req.params.id;
-    let index = data.findIndex((user) => {
-        return (user.id === Number.parseInt(id))
-    })
-
-    if (index > 0) {
-        let us = data[index]
-        data.splice(index, 1)
-        res.json(us)
-    } else {
-        res.status(404)
-    }
-
-
+    data = data.filter(x => x.id != req.params.id);
 }
 module.exports = { allUsers, getUsers, addUser, updateUser, deleteUser };
