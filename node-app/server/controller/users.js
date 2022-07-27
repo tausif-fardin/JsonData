@@ -145,18 +145,39 @@ const deleteUser = (req, res, next) => {
 
 const sortUserId = (req, res, err) => {
     console.log(data[0], data[1]);
-    if (data[0].id > data[1].id) {
+    if (data[0].id < data[1].id) {
         data.sort(function (a, b) {
-            return (a.id < b.id) ? -1 : 1;
+            return (a.id > b.id) ? -1 : 1;
         });
     } else {
         data.sort(function (a, b) {
-            return (a.id > b.id) ? -1 : 1;
+            return (a.id < b.id) ? -1 : 1;
         });
     }
 }
 const sortUserFName = (req, res, next) => {
-    console.log(data.first_name);
-    data.sort().reverse();
+
+    if (data[0].first_name > data[1].first_name) {
+        data.sort(function (a, b) {
+            return (a.first_name < b.first_name) ? -1 : 1;
+        });
+    } else {
+        data.sort(function (a, b) {
+            return (a.first_name > b.first_name) ? -1 : 1;
+        });
+    }
 }
-module.exports = { allUsers, getUsers, addUser, updateUser, deleteUser, sortUserId, sortUserFName };
+const sortUserLastName = (req, res, next) => {
+
+    if (data[0].last_name > data[1].last_name) {
+        data.sort(function (a, b) {
+            return (a.last_name < b.last_name) ? -1 : 1;
+        });
+    } else {
+        data.sort(function (a, b) {
+            return (a.last_name > b.last_name) ? -1 : 1;
+        });
+    }
+}
+
+module.exports = { allUsers, getUsers, addUser, updateUser, deleteUser, sortUserId, sortUserFName, sortUserLastName };

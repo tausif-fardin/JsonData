@@ -16,15 +16,12 @@ let table = document.getElementById('user_table1');
 async function tableRefresh() {
     const response = await fetch('http://localhost:3000/users');
     const data = await response.json();
-    console.log(data.length); // This is only accessible inside the function
     return data; // allows for .then and await to function
 }
 
 let data = await tableRefresh();
 
 dataLength = data.length;
-
-console.log(dataLength);
 
 // tableRefresh();
 // function tableRefresh() {
@@ -86,6 +83,7 @@ regForm.addEventListener("submit", (e) => {
         console.log(error);
     }
     myModal.hide();
+    console.log(data);
     renderPage(current_page);
 })
 
@@ -93,8 +91,8 @@ regForm.addEventListener("submit", (e) => {
 //Show edit modal on click edit button
 function showEditModal(id) {
     console.log(id);
-    console.log(data[id]);
     document.getElementById("idEdit").value = data[id - 1].id;
+    console.log(data[id - 1].id)
     document.getElementById("firstnameEdit").value = data[id - 1].first_name;
     document.getElementById("lastnameEdit").value = data[id - 1].last_name;
     document.getElementById("emailEdit").value = data[id - 1].email;
@@ -221,12 +219,20 @@ th[1].addEventListener('click', function () {
 });
 
 th[2].addEventListener('click', function () {
-    if (data[0].last_name < data[1].last_name) {
-        data = data.sort((a, b) => a.last_name.localeCompare(b.last_name));
-        data.reverse();
-    } else {
-        data = data.sort((a, b) => a.last_name.localeCompare(b.last_name));
+    try {
+        const response = fetch('http://localhost:3000/users/sortLastName', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+        });
+        if (response.status === 200) {
+            console.log(response);
+        }
+    } catch (error) {
+        console.log(error);
     }
+    console.log(data);
     renderPage(current_page);
 });
 
@@ -257,6 +263,7 @@ function goDown(x, indexId) {
     document.getElementById('arrowDown').onclick = true;
     renderPage(current_page);
 }
+// working on search functionality
 
 function search() {
     let input, filter, table, tr, td, i, txtValue;
@@ -299,7 +306,7 @@ function search() {
 
 const PAGE_SIZE = 3;
 const MAX_PAGE_NUMBER = Math.floor(dataLength / PAGE_SIZE);
-console.log(MAX_PAGE_NUMBER);
+//console.log(MAX_PAGE_NUMBER);
 let listing_table = document.getElementById("user_table1");
 
 
@@ -313,7 +320,7 @@ const updateButtons = page_number => {
 };
 
 function appendRow(newData) {
-    var row = '';
+    let row = '';
     newData.forEach((data, k) => {
         row += `<tr style="text-align:center">   
         <td class="col-1 col-xs-1 col-md-1"><div>
@@ -331,6 +338,7 @@ function appendRow(newData) {
         <button ${k == 0 ? "disabled" : ""} id="arrowUp" class="btn btn-primary" onclick="goUp(this,${k})"><i class="bi bi-lg bi-chevron-compact-up" style="font-weight: bold;"></i></button></td>
 
         </tr>`;
+
     });
     listing_table.innerHTML += row;
 }
@@ -338,6 +346,7 @@ function appendRow(newData) {
 
 async function getIncludedRows(page_number) {
     const result = await tableRefresh();
+    result.reverse();
     const start = page_number * PAGE_SIZE;
     const end = (page_number + 1) * PAGE_SIZE;
     console.log(result);
