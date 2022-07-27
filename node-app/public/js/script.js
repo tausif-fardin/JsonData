@@ -185,36 +185,38 @@ btn_add.addEventListener("click", function () {
 let th = document.getElementsByTagName('th');
 th[0].addEventListener('click', function () {
     try {
-        const response = fetch('http://localhost:3000/users/sort', {
+        const response = fetch('http://localhost:3000/users/sortId', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
             },
         });
-
         if (response.status === 200) {
+            console.log(response);
         }
     } catch (error) {
         console.log(error);
     }
     console.log(data);
     renderPage(current_page);
-
-    // if (data[0].id > data[1].id) {
-    //     data = data.sort((a, b) => a.id - b.id);
-    // } else {
-    //     data = data.sort((a, b) => b.id - a.id);
-    // }
 });
 
 th[1].addEventListener('click', function () {
 
-    if (data[0].first_name < data[1].first_name) {
-        data = data.sort((a, b) => a.first_name.localeCompare(b.first_name));
-        data.reverse();
-    } else {
-        data = data.sort((a, b) => a.first_name.localeCompare(b.first_name));
+    try {
+        const response = fetch('http://localhost:3000/users/sortFName', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+        });
+        if (response.status === 200) {
+            console.log(response);
+        }
+    } catch (error) {
+        console.log(error);
     }
+    console.log(data);
     renderPage(current_page);
 });
 

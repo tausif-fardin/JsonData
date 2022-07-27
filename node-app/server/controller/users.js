@@ -143,7 +143,7 @@ const deleteUser = (req, res, next) => {
     data = data.filter(x => x.id != req.params.id);
 }
 
-const sortUser = (req, res, err) => {
+const sortUserId = (req, res, err) => {
     console.log(data[0], data[1]);
     if (data[0].id > data[1].id) {
         data.sort(function (a, b) {
@@ -155,4 +155,8 @@ const sortUser = (req, res, err) => {
         });
     }
 }
-module.exports = { allUsers, getUsers, addUser, updateUser, deleteUser, sortUser };
+const sortUserFName = (req, res, next) => {
+    console.log(data.first_name);
+    data.sort().reverse();
+}
+module.exports = { allUsers, getUsers, addUser, updateUser, deleteUser, sortUserId, sortUserFName };
