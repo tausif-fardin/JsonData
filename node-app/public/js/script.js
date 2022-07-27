@@ -1,4 +1,3 @@
-
 let myModal = new bootstrap.Modal(document.getElementById("regModal"));
 let myModal2 = new bootstrap.Modal(document.getElementById("editModal"));
 let toaster = new bootstrap.Toast(document.getElementById("regToast"),);
@@ -8,9 +7,6 @@ window.showEditModal = showEditModal;
 window.onDelete = onDelete;
 window.goUp = goUp;
 window.goDown = goDown;
-
-
-
 
 let dataLength = 0;
 
@@ -130,11 +126,12 @@ editForm.addEventListener("submit", (e) => {
             },
             body: JSON.stringify(user),
         });
-
         if (response.status === 200) {
 
             resetForm(current_page);
         }
+
+
     } catch (error) {
         console.log(error);
     }
@@ -187,12 +184,27 @@ btn_add.addEventListener("click", function () {
 
 let th = document.getElementsByTagName('th');
 th[0].addEventListener('click', function () {
-    if (data[0].id > data[1].id) {
-        data = data.sort((a, b) => a.id - b.id);
-    } else {
-        data = data.sort((a, b) => b.id - a.id);
+    try {
+        const response = fetch('http://localhost:3000/users/sort', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+        });
+
+        if (response.status === 200) {
+        }
+    } catch (error) {
+        console.log(error);
     }
+    console.log(data);
     renderPage(current_page);
+
+    // if (data[0].id > data[1].id) {
+    //     data = data.sort((a, b) => a.id - b.id);
+    // } else {
+    //     data = data.sort((a, b) => b.id - a.id);
+    // }
 });
 
 th[1].addEventListener('click', function () {

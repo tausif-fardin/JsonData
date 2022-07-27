@@ -142,4 +142,17 @@ const updateUser = (req, res, next) => {
 const deleteUser = (req, res, next) => {
     data = data.filter(x => x.id != req.params.id);
 }
-module.exports = { allUsers, getUsers, addUser, updateUser, deleteUser };
+
+const sortUser = (req, res, err) => {
+    console.log(data[0], data[1]);
+    if (data[0].id > data[1].id) {
+        data.sort(function (a, b) {
+            return (a.id < b.id) ? -1 : 1;
+        });
+    } else {
+        data.sort(function (a, b) {
+            return (a.id > b.id) ? -1 : 1;
+        });
+    }
+}
+module.exports = { allUsers, getUsers, addUser, updateUser, deleteUser, sortUser };
