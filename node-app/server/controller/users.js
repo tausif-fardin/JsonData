@@ -1,83 +1,21 @@
 
-let data = [
-    {
-        id: 1,
-        first_name: "Juanita",
-        last_name: "Churchlow",
-        email: "jchurchlow0@mysql.com",
-        gender: "Female",
-
-    },
-    {
-        id: 2,
-        first_name: "Odie",
-        last_name: "Gheorghie",
-        email: "ogheorghie1@bing.com",
-        gender: "Male"
-    },
-    {
-        id: 3,
-        first_name: "Irwin",
-        last_name: "Guye",
-        email: "iguye2@mac.com",
-        gender: "Male"
-    },
-    {
-        id: 4,
-        first_name: "Bacy",
-        last_name: "Facher",
-        email: "dfacher3@ucsd.edu",
-        gender: "Female"
-    },
-    {
-        id: 5,
-        first_name: "Brenn",
-        last_name: "Hancill",
-        email: "bhancill4@slideshare.net",
-        gender: "Female"
-    },
-    {
-        id: 6,
-        first_name: "Juanita",
-        last_name: "Churchlow",
-        email: "jchurchlow0@mysql.com",
-        gender: "Female",
-
-    },
-    {
-        id: 7,
-        first_name: "Odie",
-        last_name: "Gheorghie",
-        email: "ogheorghie1@bing.com",
-        gender: "Male"
-    },
-    {
-        id: 8,
-        first_name: "Irwin",
-        last_name: "Guye",
-        email: "iguye2@mac.com",
-        gender: "Male"
-    },
-    {
-        id: 9,
-        first_name: "Bacy",
-        last_name: "Facher",
-        email: "dfacher3@ucsd.edu",
-        gender: "Female"
-    },
-    {
-        id: 10,
-        first_name: "Brenn",
-        last_name: "Hancill",
-        email: "bhancill4@slideshare.net",
-        gender: "Female"
-    },
-]
 
 //All users
 
-const allUsers = (req, res, next) => {
-    res.send(data);
+const mysql = require('mysql');
+//Create connection
+const conn = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'password',
+    database: 'usermanagement'
+});
+
+const allUsers = (request, response) => {
+    conn.query('SELECT * FROM users', (error, result) => {
+        if (error) throw error;
+        response.json(result);
+    });
 }
 
 //Get users by id
@@ -97,87 +35,93 @@ const getUsers = (req, res, next) => {
 
 // Add user
 
-const addUser = (req, res, next) => {
-
-    const user = {
-        id: data.length + 1,
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email,
-        gender: req.body.gender
-    }
-    data.push(user);
+const addUser = (req, res) => {
     console.log(req.body);
-    res.send('added users');
+    let data = { first_name: req.body.first_name, last_name: req.body.last_name, email: req.body.email, gender: req.body.gender };
+    let sql = "INSERT INTO users SET ?";
+    let query = conn.query(sql, data, (err, results) => {
+        if (err) throw err;
+        res.redirect('/users');
+    });
 
 }
 
 //Update user
 
 const updateUser = (req, res, next) => {
-    let id = req.params.id;
-    let first_name = req.body.first_name;
-    let last_name = req.body.last_name;
-    let email = req.body.email;
-    let gender = req.body.gender;
-
-    let index = data.findIndex((user) => {
-        return (user.id === Number.parseInt(id))
-    })
-
-    if (index >= 0) {
-        const us = data[index];
-        us.first_name = first_name;
-        us.last_name = last_name;
-        us.email = email;
-        us.gender = gender;
-        res.json(us);
-    } else {
-        res.status(404);
-        res.end();
+    if (!req.params.id) {
+        return next(new AppError("No user id found", 404));
     }
-}
+    conn.query(
+        "UPDATE users SET first_name = ?, last_name = ?, email = ?, gender = ? WHERE id=?",
+        [req.body.first_name, req.body.last_name, req.body.email, req.body.gender, req.params.id],
+        function (err, data, fields) {
+            if (err) return next(new AppError(err, 500));
+            res.status(201).json({
+                status: "success",
+                message: "user updated!",
+            });
+        }
+    );
+};
 
 //delete user
 const deleteUser = (req, res, next) => {
-    data = data.filter(x => x.id != req.params.id);
+    if (!req.params.id) {
+        return next(new AppError("No user id found", 404));
+    }
+    conn.query(
+        "DELETE FROM users WHERE id=?",
+        [req.params.id],
+        function (err, fields) {
+            if (err) return next(new AppError(err, 500));
+            res.status(201).json({
+                status: "success",
+                message: "user deleted!",
+            });
+        }
+    );
 }
 
 const sortUserId = (req, res, err) => {
-    console.log(data[0], data[1]);
-    if (data[0].id < data[1].id) {
-        data.sort(function (a, b) {
-            return (a.id > b.id) ? -1 : 1;
+    let order = 1;
+    if (order === 1) {
+        conn.query('SELECT * FROM users ORDER BY id ASC', (error, result) => {
+            if (error) throw error;
+            response.json(result);
         });
+        order = 0;
     } else {
-        data.sort(function (a, b) {
-            return (a.id < b.id) ? -1 : 1;
+        conn.query('SELECT * FROM users ORDER BY id DESC', (error, result) => {
+            if (error) throw error;
+            response.json(result);
         });
+        order = 1;
     }
 }
-const sortUserFName = (req, res, next) => {
+// const sortUserFName = (req, res, next) => {
 
-    if (data[0].first_name > data[1].first_name) {
-        data.sort(function (a, b) {
-            return (a.first_name < b.first_name) ? -1 : 1;
-        });
-    } else {
-        data.sort(function (a, b) {
-            return (a.first_name > b.first_name) ? -1 : 1;
-        });
-    }
-}
-const sortUserLastName = (req, res, next) => {
+//     if (data[0].first_name > data[1].first_name) {
+//         data.sort(function (a, b) {
+//             return (a.first_name < b.first_name) ? -1 : 1;
+//         });
+//     } else {
+//         data.sort(function (a, b) {
+//             return (a.first_name > b.first_name) ? -1 : 1;
+//         });
+//     }
+// }
+// const sortUserLastName = (req, res, next) => {
 
-    if (data[0].last_name > data[1].last_name) {
-        data.sort(function (a, b) {
-            return (a.last_name < b.last_name) ? -1 : 1;
-        });
-    } else {
-        data.sort(function (a, b) {
-            return (a.last_name > b.last_name) ? -1 : 1;
-        });
-    }
-}
+//     if (data[0].last_name > data[1].last_name) {
+//         data.sort(function (a, b) {
+//             return (a.last_name < b.last_name) ? -1 : 1;
+//         });
+//     } else {
+//         data.sort(function (a, b) {
+//             return (a.last_name > b.last_name) ? -1 : 1;
+//         });
+//     }
+// }
 
-module.exports = { allUsers, getUsers, addUser, updateUser, deleteUser, sortUserId, sortUserFName, sortUserLastName };
+module.exports = { allUsers, getUsers, addUser, updateUser, deleteUser, sortUserId };

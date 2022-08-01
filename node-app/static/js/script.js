@@ -18,43 +18,12 @@ async function tableRefresh() {
     const data = await response.json();
     return data; // allows for .then and await to function
 }
+const data = await tableRefresh();
 
-let data = await tableRefresh();
+console.log(data);
 
 dataLength = data.length;
-
-// tableRefresh();
-// function tableRefresh() {
-//     table.innerHTML = '';
-//     fetch('http://localhost:3000/users')
-//         .then((response) => {
-//             return response.json();
-//         })
-//         .then((data) => {
-//             dataLength = data.length;
-//             console.log(dataLength);
-//             // data.map((d, k) => {
-//             //     let row = `<tr style="text-align:center">   
-//             //             <td class="col-1 col-xs-1 col-md-1"><div>
-//             //             <span>${d.id}</span></div></td>
-//             //             <td class="col-2 col-xs-2 col-md-2">${d.first_name}</td>
-//             //             <td class="col-2 col-xs-2 col-md-2">${d.last_name}</td>
-//             //             <td class="col-2 col-xs-2 col-md-2">${d.email}</td>
-//             //             <td class="col-2 col-xs-2 col-md-2">${d.gender}</td>
-//             //             <td class="col-2 col-xs-2 col-md-2"><button type="button" class="btn btn-info" style="border:none;" data-bs-toggle="modal" data-bs-target="#exampleModal"
-//             //             id="#edit" onclick="showEditModal(${d.id})"><i class="bi bi-pencil-square"></i></button>
-//             //             <button class="btn btn-danger" style="border:none;" id="btnDelete" onClick="onDelete(${d.id},this)"><i class="bi bi-trash"></i></button>             
-//             //             <button ${k == data.length - 1 ? "disabled" : ""} id="arrowDown" class="btn btn-warning" onclick="goDown(this,${k});"><i class="bi bi-chevron-compact-down" style="font-weight: bold;"></i></button>
-//             //             <button ${k == 0 ? "disabled" : ""} id="arrowUp" class="btn btn-primary" onclick="goUp(this,${k})"><i class="bi bi-lg bi-chevron-compact-up" style="font-weight: bold;"></i></button></td>
-//             //             </tr>`
-//             //     table.innerHTML += row;
-//             // })
-//         })
-//         .catch(function (err) {
-//             console.log("Unable to fetch -", err);
-//         });
-// }
-
+console.log(dataLength);
 /* Insert into data */
 
 // add user
@@ -89,6 +58,7 @@ regForm.addEventListener("submit", (e) => {
 
 //-------------------------------
 //Show edit modal on click edit button
+
 function showEditModal(id) {
     console.log(id);
     document.getElementById("idEdit").value = data[id - 1].id;
@@ -109,6 +79,7 @@ function showEditModal(id) {
 
 //Update user data
 editForm.addEventListener("submit", (e) => {
+    console.log("edit button clicked");
     e.preventDefault();
     const id = document.getElementById("idEdit").value;
     const first_name = document.getElementById("firstnameEdit").value;
@@ -142,7 +113,7 @@ function resetForm() {
     document.getElementById("firstname").value = "";
     document.getElementById("lastname").value = "";
     document.getElementById("email").value = "";
-    document.getElementById("gender").value = "";
+    document.getElementById("gender").checked = false;
 }
 
 /* Delete row */
@@ -174,11 +145,11 @@ function onDelete(id, o) {
 
 let btn_add = document.getElementById("add");
 btn_add.addEventListener("click", function () {
+    resetForm();
     myModal.show();
 })
 
 /* Show update modal on click */
-
 
 let th = document.getElementsByTagName('th');
 th[0].addEventListener('click', function () {
@@ -220,7 +191,7 @@ th[1].addEventListener('click', function () {
 
 th[2].addEventListener('click', function () {
     try {
-        const response = fetch('http://localhost:3000/users/sortLastName', {
+        const response = fetch('http://localhost:3000/users/sortLName', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
