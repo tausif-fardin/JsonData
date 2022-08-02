@@ -1,14 +1,17 @@
 
 
 //All users
+require('dotenv').config();
 
 const mysql = require('mysql');
+
 //Create connection
+
 const conn = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'password',
-    database: 'usermanagement'
+    host: process.env.host,
+    user: process.env.user,
+    password: process.env.password,
+    database: process.env.database
 });
 
 const allUsers = (request, response) => {
@@ -99,6 +102,24 @@ const sortUserId = (req, res, err) => {
         order = 1;
     }
 }
+
+// const rowSwapUp = (req, res, next) => {
+//     console.log(req.params.id);
+//     if (!req.params.id) {
+//         return next(new AppError("No user id found", 404));
+//     }
+//     conn.query(
+//         "UPDATE users t1 INNER JOIN users t2 ON(t1.id, t2.id) IN((?, ?), (?, ?) SET t1.id = t2.id, t1.first_name = t2.first_name,t1.last_name=t2.last_name, t1.email = t2.email, t1.gender = t2.gender"
+//         [req.params.id, req.params.id + 1, req.params.id + 1, req.params.id],
+//         function (err, data, fields) {
+//             if (err) return next(new AppError(err, 500));
+//             res.status(201).json({
+//                 status: "success",
+//                 message: "user swapped!",
+//             });
+//         }
+//     );
+// };
 // const sortUserFName = (req, res, next) => {
 
 //     if (data[0].first_name > data[1].first_name) {

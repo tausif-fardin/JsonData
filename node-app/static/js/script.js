@@ -7,6 +7,7 @@ window.showEditModal = showEditModal;
 window.onDelete = onDelete;
 window.goUp = goUp;
 window.goDown = goDown;
+window.search = search;
 
 let dataLength = 0;
 
@@ -79,7 +80,6 @@ function showEditModal(id) {
 
 //Update user data
 editForm.addEventListener("submit", (e) => {
-    console.log("edit button clicked");
     e.preventDefault();
     const id = document.getElementById("idEdit").value;
     const first_name = document.getElementById("firstnameEdit").value;
@@ -217,17 +217,34 @@ th[3].addEventListener('click', function () {
     renderPage(current_page);
 });
 
-function goUp(x, indexId) {
-    let temp = 0;
-    temp = data[indexId];
-    data[indexId] = data[indexId - 1];
-    data[indexId - 1] = temp;
-    renderPage(current_page);
+function goUp(x) {
+    console.log(x);
+    try {
+        const response = fetch(`http://localhost:3000/users/swapUp/${x}`, {
+            method: 'POST',
+            // headers: {
+            //     'Content-type': 'application/json',
+            // },
+            // body: JSON.stringify(user),
+        });
+        if (response.status === 200) {
+            renderPage(current_page);
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+    // console.log(x);
+    // let temp = 0;
+    // temp = data[x];
+    // data[x] = data[x - 1];
+    // console.log(data[x]);
+    // data[x - 1] = temp;
 }
 
-function goDown(x, indexId) {
-    let temp = 0;
+function goDown(indexId) {
     console.log(indexId);
+    let temp = 0;
     temp = data[indexId];
     data[indexId] = data[indexId + 1];
     data[indexId + 1] = temp;
@@ -243,34 +260,46 @@ function search() {
     table = document.querySelector("#user_table");
     tr = table.getElementsByTagName("tr");
 
-    for (let k = 0; k < data.length; k++) {
-        if (filter == data[k].first_name.toUpperCase() || filter == data[k].last_name || filter == data[k].email || filter == data[k].gender) {
-            let cPage = Math.ceil(data.indexOf(data[k]) / 3) + 1;
-            console.log(cPage);
-            renderPage(cPage);
-            break;
-        }
-    }
-    let count = 0;
-    for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td");
-        for (let j = 0; j < td.length; j++) {
-            if (td[j]) {
-                txtValue = td[j].textContent || td[j].innerText;
-                if (filter.length > 2) {
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        count++;
-                        tr[i].style.display = "";
-                        break;
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
+    // for (let k = 0; k < data.length; k++) {
+    //     if (filter == data[k].first_name.toUpperCase() || filter == data[k].last_name || filter == data[k].email || filter == data[k].gender) {
+    //         let cPage = Math.ceil(data.indexOf(data[k]) / 3) + 1;
+    //         console.log(cPage);
+    //         renderPage(cPage);
+    //         break;
+    //     }
+    // }
+    // let count = 0;
+    // for (i = 0; i < tr.length; i++) {
+    //     td = tr[i].getElementsByTagName("td");
+    //     for (let j = 0; j < td.length; j++) {
+    //         if (td[j]) {
+    //             txtValue = td[j].textContent || td[j].innerText;
+    //             if (filter.length > 2) {
+    //                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
+    //                     count++;
+    //                     tr[i].style.display = "";
+    //                     break;
+    //                 } else {
+    //                     tr[i].style.display = "none";
+    //                 }
+    //             }
 
+    //         }
+    //     }
+    // }
+
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
             }
         }
     }
-    document.getElementById('rowcount').innerHTML = `${count} rows found.`;
+    //document.getElementById('rowcount').innerHTML = `${count} rows found.`;
 
 }
 /* Pagination */
@@ -293,7 +322,7 @@ const updateButtons = page_number => {
 function appendRow(newData) {
     let row = '';
     newData.forEach((data, k) => {
-        row += `<tr style="text-align:center">   
+        row += `<tr id="table_row_${k}" style="text-align:center">   
         <td class="col-1 col-xs-1 col-md-1"><div>
         <span>${data.id}</span></div></td>
         <td class="col-2 col-xs-2 col-md-2">${data.first_name}</td>
@@ -304,9 +333,9 @@ function appendRow(newData) {
         id="#edit" onclick="showEditModal(${data.id})"><i class="bi bi-pencil-square"></i></button>
         <button class="btn btn-danger" style="border:none;" id="btnDelete" onClick="onDelete(${data.id},this)"><i class="bi bi-trash"></i></button>
 
-        <button ${k == data.length - 1 ? "disabled" : ""} id="arrowDown" class="btn btn-warning" onclick="goDown(this,${k});"><i class="bi bi-chevron-compact-down" style="font-weight: bold;"></i></button>
+        <button ${k == data.length - 1 ? "disabled" : ""} id="arrowDown" class="btn btn-warning" onclick="goDown(${k});"><i class="bi bi-chevron-compact-down" style="font-weight: bold;"></i></button>
 
-        <button ${k == 0 ? "disabled" : ""} id="arrowUp" class="btn btn-primary" onclick="goUp(this,${k})"><i class="bi bi-lg bi-chevron-compact-up" style="font-weight: bold;"></i></button></td>
+        <button ${k == 0 ? "disabled" : ""} id="arrowUp" class="btn btn-primary" onclick="goUp(${data.id})"><i class="bi bi-lg bi-chevron-compact-up" style="font-weight: bold;"></i></button></td>
 
         </tr>`;
 
