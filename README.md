@@ -1,10 +1,10 @@
 ## Requirements
 
-- Node 16.17(minimum)
+- Node 16.17.0(minimum)
 - Git
 - MySQL
 
-## Common setup
+## Project setup
 
 Clone the repo and install the dependencies.
 
