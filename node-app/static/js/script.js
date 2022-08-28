@@ -60,10 +60,11 @@ regForm.addEventListener('submit', (e) => {
 
 function showEditModal(id) {
   document.getElementById('idEdit').value = id;
-  document.getElementById('firstnameEdit').value = data[id - 1].first_name;
-  document.getElementById('lastnameEdit').value = data[id - 1].last_name;
-  document.getElementById('emailEdit').value = data[id - 1].email;
-  let gValue = data[id - 1].gender;
+  const selectedUser = data.filter((value) => value.id == id);
+  document.getElementById('firstnameEdit').value = selectedUser[0].first_name;
+  document.getElementById('lastnameEdit').value = selectedUser[0].last_name;
+  document.getElementById('emailEdit').value = selectedUser[0].email;
+  let gValue = selectedUser[0].gender;
   if (gValue === 'Male') {
     document.getElementById('inlineRadio11').checked = true;
   } else if (gValue === 'Female') {
